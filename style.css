@@ -1,0 +1,25 @@
+*{
+    margin: 0%;
+}
+
+body{
+    font-family: monospace;
+    height: 100vh;
+    width: auto;
+    background-color: aqua;
+}
+h5{
+    background-color: red;
+    text-align: center;
+    height: auto;
+    font-size: large;
+}
+#display-area{
+    background-color: beige;
+    display: flex;
+    /* gap: 2rem; */
+    flex-wrap: wrap;
+    div{
+        padding: 2rem;
+    }
+}
