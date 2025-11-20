@@ -5,47 +5,64 @@ const display=document.getElementById("display-area")
 
 const xml= new XMLHttpRequest();
 
-xml.open("GET", "http://localhost:3000/home")
+let dirArray;
+let pwd=["home"]
 
-xml.onload=()=>{
-    let dataArray=JSON.parse(xml.responseText);
+callingAPI(pwd)
 
-    dataArray.forEach(element => {
-        display.textContent+="\t"+element;
-    });
+
+display.addEventListener('click', item=>{
+    pwd.push(item.target.textContent);
+
+    fetch("http://localhost:3000",{
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({body:item.target.textContent, forward:true})
+    })
+    .then(res=>res.json())
+    .then(result=>{
+        console.log(result);
+        getCall()
+    }).catch(err=> console.log(err));
+    // const xmr=new XMLHttpRequest();
+    // xmr.open("POST", "http://localhost:3000");
+    // xmr.setRequestHeader("Content-Type", "application/json");
+    // xmr.send(JSON.stringify({body:(item.target).textContent,forward:true}));
+
+    // getCall()
+});
+
+function getCall()
+{
+    const xhr=new XMLHttpRequest();
+
+    xhr.open("GET", "http://localhost:3000")
+
+    xhr.onload=()=>{
+        createDivs(JSON.parse(xhr.responseText))
+    }
+    xhr.send();
 }
 
-xml.send();
+function callingAPI(s)
+{
+    xml.open("GET", `http://localhost:3000/${s.join("/")}`)
+    xml.onload=()=>{
+        dirArray=JSON.parse(xml.responseText);
 
-//for milisecond to date conversion
-// function msToDate(str)
-// {
-//     return new Promise((resolve, rejects)=>{
-//         fs.stat(str, (err, stat)=>{
-//         if(err)
-//             rejects(err);
-//         resolve(new Date(stat.birthtimeMs));
-//         });
-//     });
-// }
-// msToDate(".")
-// .then(time=>{
-//     console.log(time.toLocaleString());
-// }).catch(console.error());
+        createDivs(dirArray);
+    }
+    
+    xml.send();
+}
 
-// //to get the files and folders at home
-// fs.readdir(home, (err, data)=>{
-//     if(err)
-//         throw err;
-//     data=filterDot(data);
-//     console.log(filterDot(data));
-// });
 
-// //filters the hidden file
-// function filterDot(item)
-// {
-//     return item.filter(e=>{
-//         if(e[0]!=".")
-//             return e;
-//     });
-// }
+function createDivs(arr)
+{
+    display.innerText="";
+    arr.forEach(a=>{
+        let div=document.createElement("div");
+        div.textContent=a;
+        display.appendChild(div);
+    })
+}
