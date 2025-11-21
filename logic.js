@@ -7,23 +7,15 @@ const xml= new XMLHttpRequest();
 
 let dirArray;
 let pwd=["home"]
-
+let pushStack=[];
+const head=document.getElementById("head");
 callingAPI(pwd)
 
 
 display.addEventListener('click', item=>{
     pwd.push(item.target.textContent);
-
-    fetch("http://localhost:3000",{
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({body:item.target.textContent, forward:true})
-    })
-    .then(res=>res.json())
-    .then(result=>{
-        console.log(result);
-        getCall()
-    }).catch(err=> console.log(err));
+    pushStack.push(item.target.textContent);
+    fetcher(item.target.textContent, true);
     // const xmr=new XMLHttpRequest();
     // xmr.open("POST", "http://localhost:3000");
     // xmr.setRequestHeader("Content-Type", "application/json");
@@ -32,6 +24,35 @@ display.addEventListener('click', item=>{
     // getCall()
 });
 
+head.addEventListener("click", e=>{
+    if(e.target.textContent==="<-")
+    {
+        let x=pwd.pop();
+        pushStack.push(x)
+        fetcher(x,false)
+    }
+    else if(pushStack.length!==0&&e.target.textContent==="->")
+    {
+        let x=pushStack.pop();
+        pwd.push(x);
+        fetcher(x, true);
+    }
+})
+
+
+function fetcher(a, order)
+{
+    fetch("http://localhost:3000",{
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({body:a, forward:order})
+    })
+    .then(res=>res.json())
+    .then(result=>{
+        // console.log(result);
+        getCall()
+    }).catch(err=> console.log(err));
+}
 function getCall()
 {
     const xhr=new XMLHttpRequest();
