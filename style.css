@@ -1,0 +1,42 @@
+*{
+    margin: 0%;
+}
+
+body{
+    font-family: monospace;
+    height: 100vh;
+    width: auto;
+    background-color: aqua;
+}
+
+#head{
+    display: flex;
+    /* flex-direction: column; */
+}
+#head div{
+    background-color: blueviolet;
+    border-radius: 50%;
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+h5{
+    background-color: red;
+    text-align: center;
+    height: auto;
+    font-size: large;
+}
+#display-area{
+    background-color: beige;
+    display: flex;
+    /* gap: 2rem; */
+    flex-wrap: wrap;
+    div{
+        padding: 2rem;
+        cursor: pointer;
+        border: 2px blue solid;
+    }
+}
