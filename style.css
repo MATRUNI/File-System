@@ -6,37 +6,54 @@ body{
     font-family: monospace;
     height: 100vh;
     width: auto;
-    background-color: aqua;
+    background-color: rgb(255, 255, 255);
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #head{
     display: flex;
+    justify-content: space-between;
+    padding: 1rem;
     /* flex-direction: column; */
 }
 #head div{
-    background-color: blueviolet;
-    border-radius: 50%;
-    height: 2rem;
-    width: 2rem;
+    background-color: rgb(197, 197, 197);
+    border-radius: 10px;
+    height: 3rem;
+    width: 3rem;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    img{
+        height: 2rem;
+        width: 2rem;
+    }
 }
-h5{
-    background-color: red;
+h2{
+    background-color: rgb(155, 121, 250);
     text-align: center;
     height: auto;
-    font-size: large;
+    font-size: larger;
+    color: whitesmoke;
+    padding: 1rem;
 }
 #display-area{
-    background-color: beige;
     display: flex;
     /* gap: 2rem; */
     flex-wrap: wrap;
     div{
-        padding: 2rem;
+        background-color: rgb(141, 243, 250);
+        padding: 1rem;
         cursor: pointer;
-        border: 2px blue solid;
+        border: 2px rgb(255, 255, 255) solid;
+        color: rgb(88, 88, 88);
+        width: 100%;
+        font-size: large;
+    }
+    div:hover{
+        background-color: rgba(155, 121, 250);
+        color: white;
     }
 }
