@@ -14,27 +14,29 @@ callingAPI(pwd)
 
 display.addEventListener('click', item=>{
     pwd.push(item.target.textContent);
-    pushStack.push(item.target.textContent);
+    // pushStack.push(item.target.textContent);
     fetcher(item.target.textContent, true);
-    // const xmr=new XMLHttpRequest();
-    // xmr.open("POST", "http://localhost:3000");
-    // xmr.setRequestHeader("Content-Type", "application/json");
-    // xmr.send(JSON.stringify({body:(item.target).textContent,forward:true}));
-
-    // getCall()
 });
 
 head.addEventListener("click", e=>{
-    if(e.target.textContent==="<-")
+    const child=e.target.closest("div");
+    console.log(Array.from(head.children).indexOf(child));
+    if(Array.from(head.children).indexOf(e.target.closest("div"))===0)
     {
+        console.log("If condtion here")
         let x=pwd.pop();
+        console.log("pwd:",pwd);
         pushStack.push(x)
+        console.log("pushStack",pushStack);
         fetcher(x,false)
     }
-    else if(pushStack.length!==0&&e.target.textContent==="->")
+    else if(pushStack.length!==0&&Array.from(head.children).indexOf(e.target.closest("div"))===1)
     {
+        console.log("Else if condition here")
         let x=pushStack.pop();
         pwd.push(x);
+        console.log("pwd",pwd)
+        console.log("pushStack",pushStack)
         fetcher(x, true);
     }
 })
