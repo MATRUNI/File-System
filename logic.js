@@ -1,19 +1,21 @@
 
 
 const display=document.getElementById("display-area")
+const head=document.getElementById("head");
+const currentFolder=document.getElementById("current-folder");
 
 const xml= new XMLHttpRequest();
 
 let dirArray;
 let pwd=["home"]
 let pushStack=[];
-const head=document.getElementById("head");
 callingAPI(pwd);
 
 
 display.addEventListener('click', item=>{
-    pwd.push(pwd[pwd.length-1]+"/"+item.target.textContent);
-    fetcher(pwd[pwd.length-1], true);
+    pwd.push(pwd[lastof(pwd)]+"/"+item.target.textContent);
+    presentFolder(pwd[lastof(pwd)])
+    fetcher(pwd[lastof(pwd)], true);
 });
 
 head.addEventListener("click", e=>{
@@ -26,6 +28,7 @@ head.addEventListener("click", e=>{
         console.log("pwd:",pwd);
         console.log("pushStack",pushStack);
         // console.log("Sending False here")
+        presentFolder(pwd[lastof(pwd)]);
         fetcher(pwd[pwd.length-1],false);
     }
     else if(pushStack.length!==0&&child===1)
@@ -35,6 +38,7 @@ head.addEventListener("click", e=>{
         pwd.push(x);
         console.log("pwd",pwd)
         console.log("pushStack",pushStack)
+        presentFolder(x);
         fetcher(x, true);
     }
     limitStack(pushStack);
@@ -77,6 +81,7 @@ function callingAPI(s)
         dirArray=JSON.parse(xml.responseText);
         pwd.pop();
         pwd.push(dirArray.folder);
+        presentFolder(pwd[lastof(pwd)]);
         createDivs(dirArray.body);
     }
     
@@ -96,4 +101,14 @@ function createDivs(arr)
         div.textContent=a;
         display.appendChild(div);
     })
+}
+
+function presentFolder(a)
+{
+    currentFolder.textContent="Current-Folder: "+a.substring(a.lastIndexOf("/")+1)
+}
+
+function lastof(a)
+{
+    return a.length-1;
 }
