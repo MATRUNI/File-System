@@ -1,5 +1,4 @@
-// const home=require("os").homedir();
-// const fs=require("fs");
+
 
 const display=document.getElementById("display-area")
 
@@ -86,7 +85,7 @@ function callingAPI(s)
 
 function limitStack(stack)
 {
-    return stack.length<=10?stack:stack.shift();
+    return stack.length<10?stack:stack.shift();
 }
 
 function createDivs(arr)
