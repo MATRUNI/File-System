@@ -6,7 +6,12 @@ body{
     font-family: monospace;
     height: 100vh;
     width: auto;
-    background-color: rgb(255, 255, 255);
+    background: linear-gradient(
+  rgba(180, 220, 255, 0.3),
+  rgba(100, 140, 220, 0.2),
+  rgba(60, 100, 180, 0.15)
+);
+
     -webkit-user-select: none;
     user-select: none;
 }
@@ -31,20 +36,30 @@ body{
         width: 2rem;
     }
 }
+
+#head div:hover{
+    background-color: rgb(180, 154, 253);
+}
 h2{
-    background-color: rgb(155, 121, 250);
+    background: linear-gradient(rgb(141, 243, 250),rgb(255, 255, 255),rgb(220, 227, 228));
     text-align: center;
     height: auto;
-    font-size: larger;
-    color: whitesmoke;
+    color: black;
     padding: 1rem;
+}
+#current-folder{
+    background: linear-gradient(rgb(220, 227, 228),rgb(255, 255, 255),rgba(155, 121, 250));
+    text-align: center;
+    color: black;
+    height: 2rem;
 }
 #display-area{
     display: flex;
-    /* gap: 2rem; */
+    padding: 1rem;
     flex-wrap: wrap;
     div{
         background-color: rgb(141, 243, 250);
+        border-radius: 10px;
         padding: 1rem;
         cursor: pointer;
         border: 2px rgb(255, 255, 255) solid;
