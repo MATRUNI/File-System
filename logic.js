@@ -3,16 +3,18 @@
 const display=document.getElementById("display-area")
 const head=document.getElementById("head");
 const currentFolder=document.getElementById("current-folder");
+const copiedBox=document.getElementById("copied-box");
 
 const xml= new XMLHttpRequest();
 
 let dirArray;
 let pwd=["home"]
 let pushStack=[];
+let toClipBoard;        //store the location for clipboard
 callingAPI(pwd);
 
 
-display.addEventListener('click', item=>{
+display.addEventListener('dblclick', item=>{
     pwd.push(pwd[lastof(pwd)]+"/"+item.target.textContent);
     presentFolder(pwd[lastof(pwd)])
     fetcher(pwd[lastof(pwd)], true);
@@ -99,16 +101,33 @@ function createDivs(arr)
     arr.forEach(a=>{
         let div=document.createElement("div");
         div.textContent=a;
+        div.tabIndex=0;
         display.appendChild(div);
     })
 }
 
 function presentFolder(a)
 {
-    currentFolder.textContent="Current-Folder: "+a.substring(a.lastIndexOf("/")+1)
+    toClipBoard=a;
+    currentFolder.textContent="Current-Folder: "+a.substring(a.lastIndexOf("/")+1);
+    currentFolder.title=a+" (Double click to Copy to the ClipBoard)";
 }
 
+currentFolder.addEventListener("dblclick", ()=>{
+    // this should copy from toClipBoard variable to the clicp board 
+    navigator.clipboard.writeText(toClipBoard)
+    .then(addClass)
+    .catch(err=>{console.log(err)});
+})
 function lastof(a)
 {
     return a.length-1;
+}
+
+function addClass()
+{
+    copiedBox.classList.add("show");
+    setTimeout(() => {
+        copiedBox.classList.remove("show");
+    }, 500);
 }
