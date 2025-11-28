@@ -129,5 +129,5 @@ function addClass()
     copiedBox.classList.add("show");
     setTimeout(() => {
         copiedBox.classList.remove("show");
-    }, 500);
+    }, 1000);
 }
