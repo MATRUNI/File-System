@@ -57,18 +57,47 @@ h2{
     display: flex;
     padding: 1rem;
     flex-wrap: wrap;
-    div{
-        background-color: rgb(141, 243, 250);
-        border-radius: 10px;
-        padding: 1rem;
-        cursor: pointer;
-        border: 2px rgb(255, 255, 255) solid;
-        color: rgb(88, 88, 88);
-        width: 100%;
-        font-size: large;
-    }
-    div:hover{
-        background-color: rgba(155, 121, 250);
-        color: white;
-    }
+}
+#display-area div{
+    background-color: rgb(141, 243, 250);
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    border: 2px rgb(255, 255, 255) solid;
+    color: rgb(88, 88, 88);
+    width: 100%;
+    font-size: large;
+    transition: all 0.3s ease;
+}
+#display-area div:hover{
+    background-color: rgba(155, 121, 250);
+    color: white;
+}
+#display-area div:focus{
+    outline: none;
+    background: rgb(173, 144, 252);
+}
+
+#copied-box{
+    /* display: none; */
+    position: fixed;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%,-60%);
+    background-color: rgba(155, 121, 250);
+    color: white;
+    outline: 2px solid rgb(136, 136, 136);
+    border-radius: 20px;
+    padding: 0.5rem;
+    font-size: large;
+    transition: all 0.5s ease;
+
+    opacity: 0;
+    visibility: hidden;
+}
+
+#copied-box.show{
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%,-50%);
 }
