@@ -52,6 +52,12 @@ h2{
     height: auto;
     color: black;
     padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+h2:hover
+{
+    transform: scale(1.1);
 }
 #current-folder{
     background: linear-gradient(rgb(220, 227, 228),rgb(255, 255, 255),rgba(155, 121, 250));
@@ -79,6 +85,7 @@ h2{
 #display-area div:hover{
     background-color: rgba(155, 121, 250);
     color: white;
+    transform: scale(1.01);
 }
 #display-area div:focus{
     /* outline: none; */
