@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 
 //for the first call
 app.get("/home",(req, res)=>{
-    fs.readdir(pwd, (err,fileNames)=>{
+    fs.readdir(home, (err,fileNames)=>{
         if(err)
             throw err;
         res.json({
@@ -70,6 +70,18 @@ app.get("/to",(req,res)=>{
     });
 });
 
+// call from hoverSize function
+app.post("/size",(req,res)=>{
+    console.log(req.body.folder)
+    fs.stat(req.body.folder,(err,fileInfo)=>{
+        if(err)
+            console.log(err);
+        console.log(fileInfo);
+    });
+    res.json({
+        message:"Accepted"
+    });
+});
 
 app.listen(3000, ()=>{
     console.log("Server Running on port: 3000");
