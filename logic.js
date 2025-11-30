@@ -4,11 +4,12 @@ const display=document.getElementById("display-area")
 const head=document.getElementById("head");
 const currentFolder=document.getElementById("current-folder");
 const copiedBox=document.getElementById("copied-box");
+const homePage=document.getElementById("home");
 
 const xml= new XMLHttpRequest();
 
 let dirArray;
-let pwd=["home"]
+let pwd=["home"];
 let pushStack=[];
 let toClipBoard;        //store the location for clipboard
 callingAPI(pwd);
@@ -46,7 +47,15 @@ head.addEventListener("click", e=>{
     limitStack(pushStack);
 })
 
+homePage.addEventListener('click', ()=>{
+    callingAPI(["home"]);
+    pushStack=[];
+})
 
+// display.addEventListener("mouseover", (e)=>{
+//     let str=e.target;
+//     hoverSize(str.textContent);
+// },true);
 function fetcher(a, order)
 {
     // console.log("Got here:", order,"&&&",a)
@@ -81,8 +90,9 @@ function callingAPI(s)
     xml.open("GET", `http://localhost:3000/${s.join("/")}`)
     xml.onload=()=>{
         dirArray=JSON.parse(xml.responseText);
-        pwd.pop();
+        pwd=[];
         pwd.push(dirArray.folder);
+        console.log(pwd,"in callingAPI function")
         presentFolder(pwd[lastof(pwd)]);
         createDivs(dirArray.body);
     }
@@ -130,4 +140,21 @@ function addClass()
     setTimeout(() => {
         copiedBox.classList.remove("show");
     }, 1000);
+}
+
+
+// this is for future, file size indexing
+function hoverSize(str)
+{
+    console.log(str,"in hover size");
+    fetch("http://localhost:3000/size",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body: JSON.stringify({folder:pwd[lastof(pwd)]+"/"+str})
+    })
+    .then(res=>res.json())
+    .then(result=>{
+        console.log(result)
+    })
+    .catch(err=>console.log(err))
 }
