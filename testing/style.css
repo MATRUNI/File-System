@@ -1,0 +1,117 @@
+*{
+    margin: 0%;
+}
+
+body{
+    font-family: monospace;
+    height: 100vh;
+    width: auto;
+    background: linear-gradient(
+  rgba(180, 220, 255, 0.3),
+  rgba(100, 140, 220, 0.2),
+  rgba(60, 100, 180, 0.15)
+);
+
+    -webkit-user-select: none;
+    user-select: none;
+}
+#header{
+    position: fixed;
+    width: 100vw;
+    /* transform: translate(50%,50%); */
+}
+
+#head{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    /* flex-direction: column; */
+}
+#head div{
+    background-color: rgb(197, 197, 197);
+    border-radius: 10px;
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 1rem 0 0;
+    img{
+        height: 2rem;
+        width: 2rem;
+    }
+}
+
+#head div:hover{
+    background-color: rgb(180, 154, 253);
+}
+h2{
+    background: linear-gradient(rgb(141, 243, 250),rgb(255, 255, 255),rgb(220, 227, 228));
+    text-align: center;
+    height: auto;
+    color: black;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+h2:hover
+{
+    transform: scale(1.1);
+}
+#current-folder{
+    background: linear-gradient(rgb(220, 227, 228),rgb(255, 255, 255),rgba(155, 121, 250));
+    text-align: center;
+    color: black;
+    height: 2rem;
+}
+#display-area{
+    display: flex;
+    padding: 1rem;
+    flex-wrap: wrap;
+    padding-top: 10rem;
+}
+#display-area div{
+    background-color: rgb(141, 243, 250);
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    border: 2px rgb(255, 255, 255) solid;
+    color: rgb(88, 88, 88);
+    width: 100%;
+    font-size: large;
+    transition: all 0.3s ease;
+}
+#display-area div:hover{
+    background-color: rgba(155, 121, 250);
+    color: white;
+    transform: scale(1.01);
+}
+#display-area div:focus{
+    /* outline: none; */
+    background: rgb(173, 144, 252);
+}
+
+#copied-box{
+    /* display: none; */
+    position: fixed;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%,-60%);
+    background-color: rgba(155, 121, 250);
+    color: white;
+    outline: 2px solid rgb(136, 136, 136);
+    border-radius: 20px;
+    padding: 0.5rem;
+    font-size: large;
+    transition: all 1s ease;
+
+    opacity: 0;
+    visibility: hidden;
+}
+
+#copied-box.show{
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%,-50%);
+}
