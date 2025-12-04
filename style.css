@@ -1,95 +1,175 @@
 *{
     margin: 0%;
-}
-
-body{
-    font-family: monospace;
-    height: 100vh;
-    width: auto;
-    background: linear-gradient(
-  rgba(180, 220, 255, 0.3),
-  rgba(100, 140, 220, 0.2),
-  rgba(60, 100, 180, 0.15)
-);
-
+    padding: 0%;
+    font-family: sans-serif;
+    box-sizing: border-box;
     -webkit-user-select: none;
     user-select: none;
 }
-#header{
-    position: fixed;
-    width: 100vw;
-    /* transform: translate(50%,50%); */
-}
-
-#head{
+body{
+    background: linear-gradient(135deg, #8AB9FF, #F5B3FF);
+    min-height: 100vh;
     display: flex;
-    justify-content: space-between;
-    padding: 1rem;
-    /* flex-direction: column; */
-}
-#head div{
-    background-color: rgb(197, 197, 197);
-    border-radius: 10px;
-    height: 3rem;
-    width: 3rem;
-    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
-    margin: 0 1rem 0 0;
-    img{
-        height: 2rem;
-        width: 2rem;
-    }
+}
+.header{
+    position: fixed;
+    top: -0%;
+    transform: translate(0%,0%);
+    margin-top: 4rem;
+    display: flex;
+    justify-content: space-between;
+    width: 90vw;
+    /* align-items: center; */
 }
 
-#head div:hover{
-    background-color: rgb(180, 154, 253);
-}
-h2{
-    background: linear-gradient(rgb(141, 243, 250),rgb(255, 255, 255),rgb(220, 227, 228));
-    text-align: center;
+#title-container{
     height: auto;
-    color: black;
-    padding: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
 }
-h2:hover
+.title{
+    font-size: 3rem;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+#current-folder{
+    display: block;
+    min-width: 20rem;
+    line-height: 2rem;
+    pointer-events: auto;
+}
+.new-folder{
+    color: white;
+    background: linear-gradient(135deg, #6E9BFF, #A66BFF);
+    padding: 0.7rem 1rem;
+    border-radius: 15px;
+    outline: none;
+    height: 3rem;
+    border: none;
+    font-size: large;
+    transition: 0.3s ease;
+}
+.new-folder:hover
 {
     transform: scale(1.1);
 }
-#current-folder{
-    background: linear-gradient(rgb(220, 227, 228),rgb(255, 255, 255),rgba(155, 121, 250));
-    text-align: center;
-    color: black;
-    height: 2rem;
-}
-#display-area{
+
+#container{
+    margin-top: 10rem;
+    margin-left: 18rem;
     display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
     padding: 1rem;
-    flex-wrap: wrap;
-    padding-top: 10rem;
 }
-#display-area div{
-    background-color: rgb(141, 243, 250);
+#side-Bar{
+    margin-left: 5rem;
+    margin-top: 10rem;
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    transform: translate(0%,0%);
+    height: 80vh;
+    width: 15vw;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    border: 2px solid transparent;
+}
+.section{
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 2rem;
     border-radius: 10px;
-    padding: 1rem;
-    cursor: pointer;
-    border: 2px rgb(255, 255, 255) solid;
-    color: rgb(88, 88, 88);
-    width: 100%;
-    font-size: large;
-    transition: all 0.3s ease;
+    overflow-y: auto;
 }
-#display-area div:hover{
-    background-color: rgba(155, 121, 250);
+.section::-webkit-scrollbar{
+    width: 1rem;
+}
+.section::-webkit-scrollbar-thumb
+{
+    background-color: rgb(255, 255, 255,0.3);
+    border-radius: 20px;
+}
+.section::before{
+    content: "";
+    height: inherit;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #6E9BFF, #A66BFF);
+    opacity: 0;
+    border-radius: inherit;
+    transition: all 0.3s ease;
+    z-index: -1;
+}
+.section:hover::before{
+    opacity: 1;
+}
+.section-titles{
+    font-size: large;
+}
+.nav-item{
+    font-size: large;
+    padding: 1rem;
+    border-radius: 10px;
+    transition: 0.3s ease;
+}
+
+.nav-item:hover{
+    background: linear-gradient(135deg, #6E9BFF, #A66BFF);
     color: white;
-    transform: scale(1.01);
+    transform: translateX(1rem);
+}
+
+#display-area{
+    min-height: 80vh;
+    width: 75vw;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
 }
 #display-area div:focus{
-    /* outline: none; */
-    background: rgb(173, 144, 252);
+    background: rgba(255, 255, 255, 0);
+    border-color: rgb(148, 119, 255)
+}
+
+.file-card{
+    width: 10rem;
+    height: 10rem;
+    background: rgba(255, 255, 255, 0.25);
+    padding: 2rem;
+    border-radius: 25px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 20px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.4);
+    border-image: initial;
+    transition: 0.3s ease;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-card:hover{
+    transform: translateY(-6px);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 25px;
+}
+.file-icon{
+    font-size: 3rem;
+}
+.file-name{
+    font-size: medium;
 }
 
 #copied-box{
