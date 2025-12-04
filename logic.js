@@ -14,9 +14,19 @@ let pushStack=[];
 let toClipBoard;        //store the location for clipboard
 callingAPI(pwd);
 
+currentFolder.addEventListener("dblclick", ()=>{
+    // this should copy from toClipBoard variable to the clicp board 
+    console.log("ClipBoard Listner");
+    navigator.clipboard.writeText(toClipBoard)
+    .then(addClass)
+    .catch(err=>{console.log(err)});
+})
 
 display.addEventListener('dblclick', item=>{
-    pwd.push(pwd[lastof(pwd)]+"/"+item.target.textContent);
+    let clicked=item.target.closest(".file-card");
+    if(!clicked || !clicked.querySelector("p"))
+        return;
+    pwd.push(pwd[lastof(pwd)]+"/"+clicked.querySelector("p").textContent);
     presentFolder(pwd[lastof(pwd)])
     fetcher(pwd[lastof(pwd)], true);
 });
@@ -52,10 +62,6 @@ homePage.addEventListener('click', ()=>{
     pushStack=[];
 })
 
-// display.addEventListener("mouseover", (e)=>{
-//     let str=e.target;
-//     hoverSize(str.textContent);
-// },true);
 function fetcher(a, order)
 {
     // console.log("Got here:", order,"&&&",a)
@@ -108,11 +114,19 @@ function limitStack(stack)
 function createDivs(arr)
 {
     display.innerText="";
-    arr.forEach(a=>{
+    Object.keys(arr).forEach(a=>{
         let div=document.createElement("div");
-        div.textContent=a;
+        let child=document.createElement("div");
+        let p=document.createElement("p");
+        div.classList.add("file-card");
+        child.classList.add("file-icon");
+        p.classList.add("file-name");
+        p.textContent=a;
+        child.textContent=arr[a].icon;
         div.tabIndex=0;
-        display.appendChild(div);
+        div.append(child);
+        div.append(p);
+        display.append(div)
     })
 }
 
@@ -123,12 +137,6 @@ function presentFolder(a)
     currentFolder.title=a+" (Double click to Copy to the ClipBoard)";
 }
 
-currentFolder.addEventListener("dblclick", ()=>{
-    // this should copy from toClipBoard variable to the clicp board 
-    navigator.clipboard.writeText(toClipBoard)
-    .then(addClass)
-    .catch(err=>{console.log(err)});
-})
 function lastof(a)
 {
     return a.length-1;

@@ -28,8 +28,10 @@ app.get("/home",(req, res)=>{
     fs.readdir(home, (err,fileNames)=>{
         if(err)
             throw err;
+        // console.log(check(filterDot(fileNames)));
         res.json({
-            body:filterDot(fileNames),
+            // body:filterDot(fileNames),
+            body:check(filterDot(fileNames)),
             folder:home
         });
     });
@@ -65,7 +67,7 @@ app.get("/to",(req,res)=>{
         if(err)
             throw err;
         res.json({
-            body:filterDot(fileNames)
+            body:check(filterDot(fileNames))
         });
     });
 });
@@ -82,6 +84,28 @@ app.post("/size",(req,res)=>{
         message:"Accepted"
     });
 });
+
+function icon(type,metadata)
+{
+    let icons=require("../icons.json");
+    // console.log(icons[type][metadata]["icon"]);
+    return icons[type][metadata]["icon"];
+}
+function check(x)
+{
+    let obj={};
+    x.forEach(e=>{
+            if(fs.statSync(pwd+"/"+e).isDirectory())
+            {
+                obj[e]={icon:icon('folders', "default")}
+            }
+            else
+            {
+                obj[e]={icon:icon('files', "txt")}
+            }
+    });
+    return obj;
+}
 
 app.listen(3000, ()=>{
     console.log("Server Running on port: 3000");
