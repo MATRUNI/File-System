@@ -31,7 +31,7 @@ app.get("/home",(req, res)=>{
         // console.log(check(filterDot(fileNames)));
         res.json({
             // body:filterDot(fileNames),
-            body:check(filterDot(fileNames)),
+            body:check(home,filterDot(fileNames)),
             folder:home
         });
     });
@@ -81,7 +81,7 @@ function readFolder(path)
             {
                 reject("Error Occured while Reading the folder line 80:");
             }
-            resolve(check(filterDot(file)));
+            resolve(check(pwd,filterDot(file)));
         });
     })
 }
@@ -143,11 +143,11 @@ function icon(type,metadata)
     return;
     return icons[type][metadata]["icon"];
 }
-function check(x)
+function check(way,x)
 {
     let obj={};
     x.forEach(e=>{
-            if(fs.statSync(path.join(pwd,e)).isDirectory())
+            if(fs.statSync(path.join(way,e)).isDirectory())
             {
                 obj[e]={icon:icon('folders', "default")};
             }
