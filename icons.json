@@ -1,0 +1,77 @@
+{
+  "drives": {
+    "hdd": { "icon": "💾" },
+    "ssd": { "icon": "🧊" },
+    "nvme": { "icon": "⚡" },
+    "usb": { "icon": "🔌" },
+    "sdcard": { "icon": "💳" },
+    "cloud": { "icon": "☁️" },
+    "network": { "icon": "🌐" },
+    "dvd": { "icon": "💿" },
+    "ramdisk": { "icon": "🧠" },
+    "partition": { "icon": "▢" }
+  },
+
+  "folders": {
+    "default": { "icon": "📁" },
+    "desktop": { "icon": "🖥️" },
+    "documents": { "icon": "📄" },
+    "downloads": { "icon": "⬇️" },
+    "pictures": { "icon": "🖼️" },
+    "videos": { "icon": "📽️" },
+    "music": { "icon": "🎵" },
+    "projects": { "icon": "📋" },
+    "code": { "icon": "💻" },
+    "system": { "icon": "⚙️" },
+    "temp": { "icon": "⏳" },
+    "recycle": { "icon": "♻️" },
+    "secure": { "icon": "🔒" }
+  },
+
+  "files": {
+    "pdf": { "icon": "📄" },
+    "txt": { "icon": "📝" },
+    "doc": { "icon": "📄" },
+    "docx": { "icon": "📄" },
+    "xls": { "icon": "📊" },
+    "xlsx": { "icon": "📊" },
+    "ppt": { "icon": "📈" },
+    "pptx": { "icon": "📈" },
+
+    "png": { "icon": "🖼️" },
+    "jpg": { "icon": "🖼️" },
+    "jpeg": { "icon": "🖼️" },
+    "gif": { "icon": "🎞️" },
+    "svg": { "icon": "📐" },
+    "webp": { "icon": "🖼️" },
+
+    "mp3": { "icon": "🎧" },
+    "wav": { "icon": "🔊" },
+    "flac": { "icon": "🎼" },
+
+    "mp4": { "icon": "🎬" },
+    "mov": { "icon": "🎥" },
+    "avi": { "icon": "📺" },
+    "mkv": { "icon": "🎞️" },
+
+    "zip": { "icon": "📦" },
+    "rar": { "icon": "📦" },
+    "7z": { "icon": "📦" },
+
+    "html": { "icon": "🌐" },
+    "css": { "icon": "🎨" },
+    "js": { "icon": "⚙️" },
+    "json": { "icon": "🗂️" },
+    "py": { "icon": "🐍" },
+    "c": { "icon": "🔧" },
+    "cpp": { "icon": "⚙️" },
+    "java": { "icon": "☕" },
+    "php": { "icon": "🐘" },
+
+    "exe": { "icon": "⚡" },
+    "dll": { "icon": "🔗" },
+    "sys": { "icon": "⚙️" },
+    "iso": { "icon": "💿" }
+  }
+}
+
