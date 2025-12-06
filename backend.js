@@ -1,6 +1,6 @@
 const express = require("express");
 const cors= require("cors");
-
+const path=require("path");
 const app=express();
 
 app.use(cors({
@@ -63,14 +63,28 @@ app.post("/navigate",(req,res)=>{
 
 //call from getCall function
 app.get("/to",(req,res)=>{
-    fs.readdir(pwd,(err, fileNames)=>{
-        if(err)
-            throw err;
+    // console.log(readFolder(pwd),"line 66");
+    readFolder(pwd)
+    .then(data=>{
         res.json({
-            body:check(filterDot(fileNames))
+            body:data
         });
-    });
+    })
+    .catch(e=>{console.log(e)});
 });
+
+function readFolder(path)
+{
+    return new Promise((resolve,reject)=>{
+        fs.readdir(path, (err,file)=>{
+            if(err)
+            {
+                reject("Error Occured while Reading the folder line 80:");
+            }
+            resolve(check(filterDot(file)));
+        });
+    })
+}
 
 // call from hoverSize function
 app.post("/size",(req,res)=>{
@@ -85,28 +99,80 @@ app.post("/size",(req,res)=>{
     });
 });
 
+app.post("/create",(req,res)=>{
+    if(req.body.type==="folder")
+    {
+        fs.mkdir(path.join(pwd,req.body.name), (error)=>{
+            if(error)
+                console.log("Error Occured while make Folder:",req.body.name);
+            readFolder(pwd)
+            .then(data=>{
+                res.json({
+                    message:"Folder Created",
+                    status:"OK",
+                    data:data
+                });
+            })
+            .catch(e=>{console.log(e)});
+        })
+        console.log(pwd);
+    }
+    else
+    {
+        fs.writeFile(path.join(pwd,req.body.name), "", (error)=>{
+            if(error)
+                console.log("Errpr Occured while creating File: ", req.body.name);
+            readFolder(pwd)
+            .then(data=>{
+                res.json({
+                    message:"Folder Created",
+                    status:"OK",
+                    data:data
+                });
+            })
+            .catch(e=>{console.log(e)});
+        });
+    }
+    console.log(req.body);
+})
+
 function icon(type,metadata)
 {
     let icons=require("../icons.json");
-    // console.log(icons[type][metadata]["icon"]);
+    if(icons[type][metadata]===undefined)
+    return;
     return icons[type][metadata]["icon"];
 }
 function check(x)
 {
     let obj={};
     x.forEach(e=>{
-            if(fs.statSync(pwd+"/"+e).isDirectory())
+            if(fs.statSync(path.join(pwd,e)).isDirectory())
             {
-                obj[e]={icon:icon('folders', "default")}
+                obj[e]={icon:icon('folders', "default")};
             }
             else
             {
-                obj[e]={icon:icon('files', "txt")}
+                // console.log(icon("files", extension(e)),": line 109",e);
+                if(extension(e))
+                {
+                    obj[e]={icon:icon('files', extension(e))};
+                    // console.log(extension(e),"line 113");
+                    return;
+                }
+                obj[e]={icon:icon('files', "txt")};
             }
     });
     return obj;
 }
 
+function extension(s)
+{
+    let index=s.lastIndexOf(".");
+    if(index===-1)
+        return "";
+    return s.slice(index+1);
+}
 app.listen(3000, ()=>{
     console.log("Server Running on port: 3000");
     console.log("http://localhost:3000");
