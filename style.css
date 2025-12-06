@@ -156,9 +156,6 @@ body{
     border-image: initial;
     transition: 0.3s ease;
     cursor: pointer;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .file-card:hover{
@@ -169,6 +166,9 @@ body{
     font-size: 3rem;
 }
 .file-name{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: medium;
 }
 
