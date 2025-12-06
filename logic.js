@@ -5,6 +5,7 @@ const head=document.getElementById("head");
 const currentFolder=document.getElementById("current-folder");
 const copiedBox=document.getElementById("copied-box");
 const homePage=document.getElementById("home");
+const newBtn=document.getElementById("create-New");
 
 const xml= new XMLHttpRequest();
 
@@ -14,14 +15,97 @@ let pushStack=[];
 let toClipBoard;        //store the location for clipboard
 callingAPI(pwd);
 
+class CreateModal
+{
+    constructor()
+    {
+        this.modal=document.querySelector(".modal");
+        this.name=document.getElementById('create-name');
+        this.createCancel=document.querySelectorAll(".check");
+        this.radios=document.querySelectorAll('input[name="check-Point"]');
+        
+        this.createBtn=document.getElementById("create");
+        this.cancelBtn=document.getElementById("cancel");
+
+        this.createCallBack=null;
+
+        this.createBtn.addEventListener('click', ()=>{
+            if(this.createCallBack)
+            {
+                let data=this.getData();
+                this.createCallBack(data);
+                this.close();
+            }
+        });
+
+        this.cancelBtn.addEventListener('click', ()=>{
+            this.onCancel();
+        });
+
+        document.querySelector(".modal-content").addEventListener('click', (event)=>{
+            event.stopPropagation();
+        })
+        this.modal.addEventListener('click', ()=>{
+            this.onCancel();
+        });
+    }
+
+    open(type)
+    {
+        this.modal.classList.remove('hidden');
+        this.name.textContent="";
+        this.name.focus();
+        if(type==="folder")
+        {
+            this.radios[0].checked=true;
+        }
+        else
+            this.radios[1].checked=true;
+    }
+    close()
+    {
+        this.modal.classList.add("hidden");
+    }
+
+    getData()
+    {
+        return {
+            name:this.name.value,
+            type:document.querySelector("input[name='check-Point']:checked").value
+        }
+    }
+    onCancel()
+    {
+        this.close();
+    }
+    onCreate(callback)
+    {
+        this.createCallBack=callback;
+    }
+    showErrorMessage()
+    {
+        return;
+    }
+}
+
+// event Listener to copy the path to the clipBoard
 currentFolder.addEventListener("dblclick", ()=>{
-    // this should copy from toClipBoard variable to the clicp board 
+    // this should copy from toClipBoard variable to the clip board 
     console.log("ClipBoard Listner");
     navigator.clipboard.writeText(toClipBoard)
     .then(addClass)
     .catch(err=>{console.log(err)});
 })
 
+const modal= new CreateModal(); 
+newBtn.addEventListener("click",()=>{
+    modal.open("folder");
+    modal.onCreate((data)=>{
+        console.log(data);
+        createFileAndFolder(data.name, data.type);
+    });
+})
+// Eventlistener for the main files
 display.addEventListener('dblclick', item=>{
     let clicked=item.target.closest(".file-card");
     if(!clicked || !clicked.querySelector("p"))
@@ -30,7 +114,7 @@ display.addEventListener('dblclick', item=>{
     presentFolder(pwd[lastof(pwd)])
     fetcher(pwd[lastof(pwd)], true);
 });
-
+// EventListener for forward and backward
 head.addEventListener("click", e=>{
     const child=Array.from(head.children).indexOf(e.target.closest("div"));
     console.log(child);
@@ -56,7 +140,7 @@ head.addEventListener("click", e=>{
     }
     limitStack(pushStack);
 })
-
+// EventListener for title
 homePage.addEventListener('click', ()=>{
     callingAPI(["home"]);
     pushStack=[];
@@ -104,6 +188,21 @@ function callingAPI(s)
     }
     
     xml.send();
+}
+// this function will create new file or folder
+function createFileAndFolder(name,type)
+{
+    fetch("http://localhost:3000/create",{
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({name:name, type:type})
+    })
+    .then(res=>res.json())
+    .then((response)=>{
+        console.log(response.status);
+        createDivs(response.data);
+    })
+    .catch(err=>[console.log(err)]);
 }
 
 function limitStack(stack)
