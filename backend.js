@@ -138,7 +138,7 @@ app.post("/create",(req,res)=>{
 
 function icon(type,metadata)
 {
-    let icons=require("../icons.json");
+    let icons=require("./icons.json");
     if(icons[type][metadata]===undefined)
     return;
     return icons[type][metadata]["icon"];
