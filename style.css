@@ -172,6 +172,102 @@ body{
     font-size: medium;
 }
 
+.modal{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.301);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal-content{
+    height: 15rem;
+    width: 30rem;
+    background: linear-gradient(215deg, #F5B3FF, #6E9BFF);
+    color: black;
+    border-radius: 20px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.hidden{
+    display: none;
+}
+#create-name{
+    height: 2rem;
+    outline: none;
+    border: none;
+    border-radius: 20px;
+    padding: 1rem; 
+    margin-top: 1rem;
+    color: white;
+    font-size: medium;
+    background-color: rgba(255, 255, 255, 0.288);
+}
+.check{
+    margin-top: 1rem;
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+}
+
+.style-radio input{
+    display: none;
+}
+
+.style-radio{
+    display: inline-block;
+    padding: 10px 20px;
+    border: 2px solid rgba(255, 255, 255, 0.253);
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 10px;
+    width: 5rem;
+    transition: 0.3s ease;
+    text-align: center;
+}
+
+.style-radio:has(input:checked){
+  background: linear-gradient(315deg, #6E9BFF, #A66BFF);
+  color: white;
+  transform: scale(1.1);
+}
+
+.cancel{
+    background: #ffffff41;
+}
+
+#head{
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    position: fixed;
+    top: 90%;
+}
+#head div{
+    background-color: rgba(197, 197, 197, 0.349);
+    border-radius: 10px;
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 1rem 0 0;
+    img{
+        height: 2rem;
+        width: 2rem;
+    }
+}
+
+#head div:hover{
+    background-color: rgba(180, 154, 253, 0.281);
+}
 #copied-box{
     /* display: none; */
     position: fixed;
