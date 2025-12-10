@@ -169,8 +169,8 @@ function getCall()
     xhr.onload=()=>{
         dirArray=JSON.parse(xhr.responseText);
         // console.log(dirArray.body);
-        // console.log("Call createDivs function!");
-        createDivs(dirArray.body);
+        // console.log("Call renderData function!");
+        renderData(dirArray.body);
     }
     xhr.send();
 }
@@ -184,7 +184,7 @@ function callingAPI(s)
         pwd.push(dirArray.folder);
         console.log(pwd,"in callingAPI function")
         presentFolder(pwd[lastof(pwd)]);
-        createDivs(dirArray.body);
+        renderData(dirArray.body);
     }
     
     xml.send();
@@ -200,7 +200,7 @@ function createFileAndFolder(name,type)
     .then(res=>res.json())
     .then((response)=>{
         console.log(response.status);
-        createDivs(response.data);
+        renderData(response.data);
     })
     .catch(err=>[console.log(err)]);
 }
@@ -210,7 +210,7 @@ function limitStack(stack)
     return stack.length<10?stack:stack.shift();
 }
 
-function createDivs(arr)
+function renderData(arr)
 {
     display.innerText="";
     Object.keys(arr).forEach(a=>{
@@ -265,3 +265,38 @@ function hoverSize(str)
     })
     .catch(err=>console.log(err))
 }
+
+class Section
+{
+    constructor()
+    {
+        console.log("Class section initialised")
+        this.section=document.getElementById("section");
+        this.listener();
+    }
+
+    listener()
+    {
+        this.section.addEventListener('click', e=>{
+            console.log("listener methid : ",e.target);
+            if(e.target.classList.contains("nav-item"))
+            {
+                console.log(e.target.textContent.slice(3));
+                this.callBackend(e.target.textContent.slice(3));
+            }
+        });
+    }
+
+    async callBackend(path)
+    {
+        let result=await fetch("http://localhost:3000/special",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({folder:path})
+        });
+        result=await result.json();
+        pwd.push(result.path);
+        renderData(result.data);
+    }
+}
+new Section();
