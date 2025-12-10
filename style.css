@@ -82,6 +82,7 @@ body{
 .section{
     position: relative;
     flex: 1;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -130,9 +131,10 @@ body{
 #display-area{
     min-height: 80vh;
     width: 75vw;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
     gap: 2rem;
-    flex-wrap: wrap;
+    padding: 1rem;
 }
 #display-area div:focus{
     background: rgba(255, 255, 255, 0);
@@ -144,7 +146,7 @@ body{
     height: 10rem;
     background: rgba(255, 255, 255, 0.25);
     padding: 2rem;
-    border-radius: 25px;
+    border-radius: 10px;
     text-align: center;
     display: flex;
     flex-direction: column;
