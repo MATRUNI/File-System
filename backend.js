@@ -4,7 +4,6 @@ const path=require("path");
 const app=express();
 
 app.use(cors({
-    origin:"*",
     methods:["GET","POST"],
     allowedHeaders:["Content-Type"]
 }));
@@ -31,7 +30,7 @@ app.get("/home",(req, res)=>{
         // console.log(check(filterDot(fileNames)));
         res.json({
             // body:filterDot(fileNames),
-            body:check(home,filterDot(fileNames)),
+            body:getIconByExtension(home,filterDot(fileNames)),
             folder:home
         });
     });
@@ -81,7 +80,7 @@ function readFolder(path)
             {
                 reject("Error Occured while Reading the folder line 80:");
             }
-            resolve(check(pwd,filterDot(file)));
+            resolve(getIconByExtension(path,filterDot(file)));
         });
     })
 }
@@ -143,7 +142,7 @@ function icon(type,metadata)
     return;
     return icons[type][metadata]["icon"];
 }
-function check(way,x)
+function getIconByExtension(way,x)
 {
     let obj={};
     x.forEach(e=>{
@@ -173,7 +172,7 @@ function extension(s)
         return "";
     return s.slice(index+1);
 }
-app.listen(3000, ()=>{
+app.listen(3000, "127.0.0.1", ()=>{
     console.log("Server Running on port: 3000");
     console.log("http://localhost:3000");
 })
@@ -185,3 +184,29 @@ function filterDot(item)
             return e;
     });
 }
+
+class Section
+{
+    constructor()
+    {
+        this.callListener();
+    }
+
+    callListener()
+    {
+        app.post("/special",async (req,res)=>{
+            console.log(req.body.folder);
+            let newPath=path.join(home,req.body.folder);
+            console.log(newPath);
+            let data= await readFolder(newPath);
+            
+            res.json({
+                status:200,
+                message:"Accepted",
+                data:data,
+                path:newPath
+            });
+        })
+    }
+}
+new Section();
