@@ -120,21 +120,14 @@ head.addEventListener("click", e=>{
     console.log(child);
     if(child===0&&pwd.length>=2)
     {
-        console.log("If condtion here")
         pushStack.push(pwd.pop());
-        console.log("pwd:",pwd);
-        console.log("pushStack",pushStack);
-        // console.log("Sending False here")
         presentFolder(pwd[lastof(pwd)]);
         fetcher(pwd[pwd.length-1],false);
     }
     else if(pushStack.length!==0&&child===1)
     {
-        console.log("Else if condition here")
         let x=pushStack.pop();
         pwd.push(x);
-        console.log("pwd",pwd)
-        console.log("pushStack",pushStack)
         presentFolder(x);
         fetcher(x, true);
     }
@@ -168,9 +161,15 @@ function getCall()
 
     xhr.onload=()=>{
         dirArray=JSON.parse(xhr.responseText);
-        // console.log(dirArray.body);
-        // console.log("Call renderData function!");
-        renderData(dirArray.body);
+        if(dirArray.message==="folder")
+        {
+            renderData(dirArray.body);
+        }
+        else
+        {
+            pwd.pop();
+            console.log(dirArray);
+        }
     }
     xhr.send();
 }
@@ -270,7 +269,7 @@ class Section
 {
     constructor()
     {
-        console.log("Class section initialised")
+        // console.log("Class section initialised")
         this.section=document.getElementById("section");
         this.listener();
     }
@@ -278,10 +277,10 @@ class Section
     listener()
     {
         this.section.addEventListener('click', e=>{
-            console.log("listener methid : ",e.target);
+            // console.log("listener methid : ",e.target);
             if(e.target.classList.contains("nav-item"))
             {
-                console.log(e.target.textContent.slice(3));
+                // console.log(e.target.textContent.slice(3));
                 this.callBackend(e.target.textContent.slice(3));
             }
         });
