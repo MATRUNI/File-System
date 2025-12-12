@@ -3,6 +3,7 @@ const cors= require("cors");
 const path=require("path");
 const app=express();
 
+const {spawn}=require("child_process");
 app.use(cors({
     methods:["GET","POST"],
     allowedHeaders:["Content-Type"]
@@ -13,6 +14,39 @@ const home=require("os").homedir();
 let pwd=home;
 const fs=require("fs");
 
+class OpenFiles
+{
+    constructor(path)
+    {
+        this.opener(path);
+        console.log(path);
+    }
+    opener(path)
+    {
+        let cmd;
+        switch(process.platform)
+        {
+            case "win32":
+                cmd="cmd";
+                break;
+            case "darwin":
+                cmd="open";
+                break;
+            case "linux":
+                cmd="xdg-open";
+                break;
+            default:
+                console.log("Error while opening the File:",path);
+                return;
+        }
+
+        const childSpawn=spawn(cmd,[path],{
+            env:process.env,
+            stdio:"inherit",
+        });
+        childSpawn.unref();
+    }
+}
 
 //this is to check what ##frontEnd is requesting##
 
@@ -63,13 +97,26 @@ app.post("/navigate",(req,res)=>{
 //call from getCall function
 app.get("/to",(req,res)=>{
     // console.log(readFolder(pwd),"line 66");
-    readFolder(pwd)
-    .then(data=>{
+    if(fs.statSync(pwd).isDirectory())
+    {
+        readFolder(pwd)
+        .then(data=>{
+            res.json({
+                status:"Accepted",
+                message:"folder",
+                body:data
+            });
+        })
+        .catch(e=>{console.log(e)});
+    }
+    else
+    {
+        new OpenFiles(pwd);
         res.json({
-            body:data
+            status:"Accepted",
+            message:"file"
         });
-    })
-    .catch(e=>{console.log(e)});
+    }
 });
 
 function readFolder(path)
