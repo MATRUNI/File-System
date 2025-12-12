@@ -11,22 +11,21 @@ body{
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: end;
-}
-.toggle-bg{
-    background: linear-gradient(135deg, #2c3e9e,#8a64eb);
-    color: white;
+    justify-content: center;
+    align-items: center;
 }
 .header{
     position: fixed;
-    top: -0%;
+    top: 6%;
     transform: translate(0%,0%);
+    /* margin-top: 4rem; */
     display: flex;
     justify-content: space-between;
-    width: 85vw;
-    padding: 1rem;
+    width: 90vw;
+    z-index: 100;
+    background-color: red;
+    /* align-items: center; */
 }
-
 #title-container{
     height: auto;
 }
@@ -42,24 +41,6 @@ body{
     line-height: 2rem;
     pointer-events: auto;
 }
-#search-and-btn{
-    display: flex;
-    gap: 2rem;
-    justify-content: space-evenly;
-    align-items: center;
-}
-#search{
-    outline: none;
-    border: none;
-    padding: 1rem;
-    min-width: 15rem;
-    border-radius: 10px;
-    font-size: large;
-    /* color: white;
-    background: transparent; */
-    -webkit-backdrop-filter: blur(5px);
-    backdrop-filter: blur(10px);
-}
 .new-folder{
     color: white;
     background: linear-gradient(135deg, #6E9BFF, #A66BFF);
@@ -71,22 +52,13 @@ body{
     font-size: large;
     transition: 0.3s ease;
 }
-.new-folder:hover, .mode:hover
+.new-folder:hover
 {
     transform: scale(1.1);
 }
-.mode{
-    outline: none;
-    border: none;
-    padding: 1rem;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #2c3e9e,#8a64eb);
-    color: white;
-    font-size: large;
-}
 
 #container{
-    margin-top: 6rem;
+    margin-top: 10rem;
     margin-left: 18rem;
     display: flex;
     flex-direction: row;
@@ -95,12 +67,14 @@ body{
     padding: 1rem;
 }
 #side-Bar{
+    margin-left: 5rem;
+    margin-top: 10rem;
     position: fixed;
     top: 0%;
     left: 0%;
     transform: translate(0%,0%);
-    height: 100vh;
-    width: 15vw;
+    height: 80vh;
+    min-width: 15vw;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -109,7 +83,6 @@ body{
 .section{
     position: relative;
     flex: 1;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -120,8 +93,27 @@ body{
 .section::-webkit-scrollbar{
     width: 1rem;
 }
+.section::-webkit-scrollbar-thumb
+{
+    background-color: rgb(255, 255, 255,0.3);
+    border-radius: 20px;
+}
+.section::before{
+    content: "";
+    height: inherit;
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #6E9BFF, #A66BFF);
+    opacity: 0;
+    border-radius: inherit;
+    transition: all 0.3s ease;
+    z-index: -1;
+}
+.section:hover::before{
+    opacity: 1;
+}
 .section-titles{
-    font-size: xx-large;
+    font-size: large;
 }
 .nav-item{
     font-size: large;
@@ -137,22 +129,22 @@ body{
 }
 
 #display-area{
-    max-height: 85vh;
-    width: 85vw;
+    min-height: 80vh;
+    width: 75vw;
+    /* display: flex; */
+    gap: 2rem;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(10rem, 1fr));
-    gap: 2rem;
-    padding: 1rem;
-    overflow-y: auto;
-}
-#display-area::-webkit-scrollbar{
-    width: 1rem;
-}
-#display-area::-webkit-scrollbar-thumb{
-    background: linear-gradient(135deg, #A66BFF,#de93f5);
-    border-radius: 20px;
-
+    border-top: 2px solid red;
+    border-left: 2px solid red;
+    /* padding: 1rem; */
+    z-index: -1;
+    /* position: fixed;
+    top: 10rem;
+    left: 25vw; */
+    /* overflow: hidden; */
+    /* overflow-y: auto; */
+    /* flex-wrap: wrap; */
 }
 #display-area div:focus{
     background: rgba(255, 255, 255, 0);
@@ -164,7 +156,7 @@ body{
     height: 10rem;
     background: rgba(255, 255, 255, 0.25);
     padding: 2rem;
-    border-radius: 10px;
+    border-radius: 25px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -264,10 +256,9 @@ body{
 
 #head{
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     padding: 1rem;
     position: fixed;
-    width: 100vw;
     top: 90%;
 }
 #head div{
@@ -290,6 +281,7 @@ body{
     background-color: rgba(180, 154, 253, 0.281);
 }
 #copied-box{
+    /* display: none; */
     position: fixed;
     top: 90%;
     left: 50%;
