@@ -6,15 +6,33 @@
     -webkit-user-select: none;
     user-select: none;
 }
+
+@property --c1 {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #8AB9FF;
+}
+
+@property --c2 {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #F5B3FF;
+}
 body{
-    background: linear-gradient(135deg, #8AB9FF, #F5B3FF);
+    --c1:#8AB9FF;
+    --c2:#F5B3FF;
+    background: linear-gradient(135deg, var(--c1), var(--c2));
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: end;
+    transition: --c1 0.3s ease,--c2 0.3s ease;
 }
-.toggle-bg{
-    background: linear-gradient(135deg, #2c3e9e,#8a64eb);
+.toogle-bg{
+    --c1:#2c3e9e;
+    --c2:#8a64eb;
+    --m1:#8AB9FF;
+    --m2:#F5B3FF;
     color: white;
 }
 .header{
@@ -71,20 +89,31 @@ body{
     font-size: large;
     transition: 0.3s ease;
 }
-.new-folder:hover, .mode:hover
+.new-folder:hover, #mode:hover
 {
     transform: scale(1.1);
 }
-.mode{
+@property --m1{
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #2c3e9e;
+}
+@property --m2{
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #8a64eb;
+}
+
+#mode{
     outline: none;
     border: none;
     padding: 1rem;
     border-radius: 20px;
-    background: linear-gradient(135deg, #2c3e9e,#8a64eb);
+    background: linear-gradient(135deg, var(--m1),var(--m2));
     color: white;
     font-size: large;
+    transition: 0.3s ease;
 }
-
 #container{
     margin-top: 6rem;
     margin-left: 18rem;
