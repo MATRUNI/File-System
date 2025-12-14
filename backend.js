@@ -28,9 +28,11 @@ class OpenFiles
         {
             case "win32":
                 cmd="cmd";
+                path=["/c","start","",path];
                 break;
             case "darwin":
                 cmd="open";
+                path=[path];
                 break;
             case "linux":
                 cmd="gio";
@@ -75,7 +77,7 @@ app.post("/navigate",(req,res)=>{
     // console.log(req.body.forward,"Forwards here")
     if(req.body.forward)
     {
-        pwd=req.body.body;
+        pwd=path.normalize(req.body.body);
         // console.log(pwd, "line 32")
         res.json({
             message:"Accepted",
