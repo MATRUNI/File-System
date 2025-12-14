@@ -88,6 +88,11 @@ class CreateModal
     }
 }
 
+document.getElementById('mode').addEventListener('click', (e)=>{
+    document.body.classList.toggle("toogle-bg");
+    e.currentTarget.classList.toggle("toogle-bg");
+})
+
 // event Listener to copy the path to the clipBoard
 currentFolder.addEventListener("dblclick", ()=>{
     // this should copy from toClipBoard variable to the clip board 
@@ -111,7 +116,7 @@ display.addEventListener('dblclick', item=>{
     if(!clicked || !clicked.querySelector("p"))
         return;
     pwd.push(pwd[lastof(pwd)]+"/"+clicked.querySelector("p").textContent);
-    presentFolder(pwd[lastof(pwd)])
+    // presentFolder(pwd[lastof(pwd)]);
     fetcher(pwd[lastof(pwd)], true);
 });
 // EventListener for forward and backward
@@ -168,6 +173,7 @@ function getCall()
         else
         {
             pwd.pop();
+            presentFolder(pwd[lastof(pwd)]);
             console.log(dirArray);
         }
     }
