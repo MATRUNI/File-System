@@ -33,18 +33,18 @@ class OpenFiles
                 cmd="open";
                 break;
             case "linux":
-                cmd="xdg-open";
+                cmd="gio";
+                path=["open",path];
                 break;
             default:
                 console.log("Error while opening the File:",path);
                 return;
         }
 
-        const childSpawn=spawn(cmd,[path],{
-            env:process.env,
-            stdio:"inherit",
-        });
-        childSpawn.unref();
+        spawn(cmd,path,{
+            detached:true,
+            stdio:"ignore",
+        }).unref();
     }
 }
 
@@ -202,7 +202,7 @@ function getIconByExtension(way,x)
                 // console.log(icon("files", extension(e)),": line 109",e);
                 if(extension(e))
                 {
-                    obj[e]={icon:icon('files', extension(e))};
+                    obj[e]=extension(e)==="music"?{icon:icon('folders', "music")}:{icon:icon('files', extension(e))};
                     // console.log(extension(e),"line 113");
                     return;
                 }
@@ -213,10 +213,17 @@ function getIconByExtension(way,x)
 }
 
 function extension(s)
-{
+{   
+    let audio_extensions = [
+        ".mp3", ".wav", ".aac", ".flac", ".ogg", ".m4a", ".wma",
+        ".aiff", ".alac", ".amr", ".opus", ".ra", ".gsm",
+        ".au", ".swa", ".ape", ".tta", ".wv"
+    ]
     let index=s.lastIndexOf(".");
     if(index===-1)
         return "";
+    else if(audio_extensions.includes(s.slice(index)))
+        return "music";
     return s.slice(index+1);
 }
 app.listen(3000, "127.0.0.1", ()=>{
