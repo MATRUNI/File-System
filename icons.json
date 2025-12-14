@@ -45,9 +45,6 @@
     "svg": { "icon": "📐" },
     "webp": { "icon": "🖼️" },
 
-    "mp3": { "icon": "🎧" },
-    "wav": { "icon": "🔊" },
-    "flac": { "icon": "🎼" },
 
     "mp4": { "icon": "🎬" },
     "mov": { "icon": "🎥" },
