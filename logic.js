@@ -88,9 +88,41 @@ class CreateModal
     }
 }
 
+class LocalStack
+{
+    getter(key)
+    {
+        return JSON.parse(localStorage.getItem(key))||[];
+    }
+
+    setStack(key, value)
+    {
+        let data=this.getter(key);
+        data.push(value);
+        localStorage.setItem(key, JSON.stringify(data));
+        console.log("Data Saved!");
+    }
+    setter(key, value)
+    {
+        localStorage.setItem(key, JSON.stringify(value));
+        console.log("Setter Saved!");
+    }
+}
+let localStorageInstance=new LocalStack();
 document.getElementById('mode').addEventListener('click', (e)=>{
     document.body.classList.toggle("toogle-bg");
     e.currentTarget.classList.toggle("toogle-bg");
+    const currentTheme=document.body.classList.contains("toogle-bg")?"dark":"light";
+    localStorageInstance.setter("theme", currentTheme);
+})
+
+
+window.addEventListener("DOMContentLoaded", ()=>{
+    let theme=localStorageInstance.getter("theme")||"light";
+    if(theme==="light")
+        return;
+    document.body.classList.add("toogle-bg");
+    document.getElementById("mode").classList.add("toogle-bg");
 })
 
 // event Listener to copy the path to the clipBoard
@@ -172,6 +204,7 @@ function getCall()
         }
         else
         {
+            localStorageInstance.setStack("Recent", pwd[lastof(pwd)]);
             pwd.pop();
             presentFolder(pwd[lastof(pwd)]);
             console.log(dirArray);
