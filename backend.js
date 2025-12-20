@@ -63,7 +63,6 @@ app.get("/home",(req, res)=>{
     fs.readdir(home, (err,fileNames)=>{
         if(err)
             throw err;
-        // console.log(check(filterDot(fileNames)));
         res.json({
             // body:filterDot(fileNames),
             body:getIconByExtension(home,filterDot(fileNames)),
@@ -74,11 +73,9 @@ app.get("/home",(req, res)=>{
 
 //call from fetcher function
 app.post("/navigate",(req,res)=>{
-    // console.log(req.body.forward,"Forwards here")
     if(req.body.forward)
     {
         pwd=path.normalize(req.body.body);
-        // console.log(pwd, "line 32")
         res.json({
             message:"Accepted",
             data:pwd
@@ -87,7 +84,6 @@ app.post("/navigate",(req,res)=>{
     else
     {
         pwd=req.body.body;
-        // console.log(pwd,"line 41");
         res.json({
             message:"Accepted",
             data:pwd
@@ -98,7 +94,6 @@ app.post("/navigate",(req,res)=>{
 
 //call from getCall function
 app.get("/to",(req,res)=>{
-    // console.log(readFolder(pwd),"line 66");
     if(fs.statSync(pwd).isDirectory())
     {
         readFolder(pwd)
@@ -201,11 +196,9 @@ function getIconByExtension(way,x)
             }
             else
             {
-                // console.log(icon("files", extension(e)),": line 109",e);
                 if(extension(e))
                 {
                     obj[e]=extension(e)==="music"?{icon:icon('folders', "music")}:{icon:icon('files', extension(e))};
-                    // console.log(extension(e),"line 113");
                     return;
                 }
                 obj[e]={icon:icon('files', "txt")};
@@ -266,3 +259,36 @@ class Section
     }
 }
 new Section();
+
+class RecentFIles
+{
+    constructor()
+    {
+        this.recent=[];
+        this.init();
+    }
+    init()
+    {
+        app.post("/recent", async (req, res)=>{
+            let newObj={};
+            let fullPath=[];
+            let s=req.body.data;
+            s.forEach(element=>{
+                newObj={...newObj,...getIconByExtension(path.dirname(element),[this.currentFileName(element)])};
+                fullPath.push(element);
+            });
+            // console.log(fullPath);
+            res.json({
+                status:200,
+                message: "Accepted",
+                data:newObj,
+                path:fullPath
+            })
+        })
+    }
+    currentFileName(filePath)
+    {
+        return path.basename(filePath);
+    }
+}
+new RecentFIles();
