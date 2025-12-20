@@ -1,10 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File System</title>
-    <link rel="stylesheet" href="testing.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    #recent{
+      background: red;
+      display: flex;
+      justify-self: center;
+      flex-direction: column;
+      position: relative;
+    }
+    .hidden{
+      display: none;
+    }
+    #item{
+      position: absolute;
+      left: 2rem;
+      top: 3rem;
+      background: gray;
+      width: 10rem;
+    }
+  </style>
 </head>
 <body>
   <div id="recent">

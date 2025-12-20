@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empty</title>
+     <script> const socket = new WebSocket("ws://" + location.host); socket.onmessage = (e) => { if (e.data === "reload") { location.reload(); } }; </script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #container{
+            height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.349);
+        }
+        #main{
+            height: 40vh;
+            width: 40vw;
+            background: green;
+            padding: 1rem;
+        }
+        #sub{
+            width: 100%;
+            height: 20vh;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        @property --back{
+            syntax: '<color>';
+            inherits: false;
+            initial-value: #a1a1aa;
+        }
+        #top{
+            height: 1rem;
+            width: 2rem;
+            background: var(--back);
+            position: relative;
+            translate: -100% 100%;
+            z-index: auto;
+            border-radius: 10%;
+        }
+        #back{
+            height: 4rem;
+            width: 6rem;
+            background: var(--back);
+            position: relative;
+            translate: 0% 17%;
+            z-index: auto;
+            border-radius: 10%;
+        }
+        #front{
+            height: 4rem;
+            width: 6.3rem;
+            background: rgb(60, 255, 0);
+            position: relative;
+            translate: 0% -65%;
+            z-index: 2;
+            border-radius: 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            transform-origin: bottom center;
+        }
+        #front:hover{
+            transform: rotateX(25deg);
+        }
+        #transp{
+            height: 0.1rem;
+            width: 2rem;
+            background: var(--back);
+        }
+        #circle{
+            height: 1rem;
+            width: 1rem;
+            border-radius: 50%;
+            position: relative;
+            background: linear-gradient(245deg,rgb(172, 247, 218), rgb(192, 187, 255));
+            top: -40%;
+            left: 0%;
+            color: transparent;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            box-shadow: 0 0 20px rgb(40, 241, 255);
+            animation: rotate 5s linear infinite;
+        }
+        @keyframes rotate{
+            0%{
+                color: transparent;
+                transform: translateY(10rem);
+                filter: drop-shadow(0 0 5px rgb(39, 204, 255));
+            }
+            20%{
+                color: transparent;
+                transform: rotate(0deg) translate(0);
+                filter: drop-shadow(0 0 20px rgb(119, 0, 255));
+            }
+            40%{
+                color: transparent;
+                transform: rotate(720deg);
+                filter: drop-shadow(0 0 5px rgb(34, 255, 119));
+            }
+            60%{
+                color: transparent;
+                transform: rotate(1440deg);
+                filter: drop-shadow(0 0 20px rgb(255, 232, 30));
+            }
+            80%{
+                color: black;
+                transform: translateY(0) scale(5);
+                font-size: medium;
+            }
+            100%{
+                transform: translateY(10rem);
+                filter: drop-shadow(0 0 5px rgb(99, 245, 255));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="main">
+            <div id="sub">
+                <div id="circle">!</div>
+                <div id="top"></div>
+                <div id="back"></div>
+                <div id="front">
+                    <div id="transp"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
