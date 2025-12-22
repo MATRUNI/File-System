@@ -414,13 +414,22 @@ class RecentFIles
         this.item.addEventListener("mouseleave", ()=>{
             this.mouseLeave();
         });
-        this.recentHeader.addEventListener("click",(ele)=>{
-            // if(this.item.matches(":hover"))
-          console.log(ele.target)
+
+        this.recentItem.addEventListener('click', async(e)=>{
+            let index=Array.from(this.recentItem.children).indexOf(e.target.closest(".recent-children"));
+            console.log(this.dataObject.path[index]);
+            let response=await fetch("http://localhost:3000/recent-file",{
+                method:"POST",
+                headers:{"Content-Type":"application/json"},
+                body:JSON.stringify({data:this.dataObject.path[index]})
+            });
+            this.instantFade();
+            let result= await response;
+            console.log(result.status);
         });
 
-        this.recentItem.addEventListener('click', (e)=>{
-            console.log(e.target);
+        document.getElementById("clear-recent").addEventListener('click', ()=>{
+            console.log("Clear local Storage Clicked!!!");
         })
     }
     mouseLeave()
@@ -428,6 +437,10 @@ class RecentFIles
         this.timeout=setTimeout(()=>{
           this.item.classList.add("hidden");
         },500)
+    }
+    instantFade()
+    {
+        this.item.classList.add("hidden");
     }
     removeTimeout(time)
     {
@@ -465,7 +478,7 @@ class RecentFIles
             count++;
         }
     }
-    manager()
+    clearLocalStack()
     {
         this.clearLocal();
     }
