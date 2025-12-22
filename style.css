@@ -417,16 +417,19 @@ thus, display:flex from the id was overRiding the (.hidden class) */
     grid-column: 1/-1;
     width: 100%;
     height: 80vh;
-    background: white;
+    background: linear-gradient(155deg, #6e9cff00, #a66bff07);
     display: flex;
     justify-content: center;
+    border-radius: 10px;
     align-items: center;
     flex-direction: column;
+    color: white;
+    font-size: larger;
 }
 @property --back{
     syntax: '<color>';
     inherits: false;
-    initial-value: #a1a1aa;
+    initial-value: #f0f4f8;
 }
 .top{
     height: 1rem;
@@ -449,7 +452,10 @@ thus, display:flex from the id was overRiding the (.hidden class) */
 .front{
     height: 4rem;
     width: 6.3rem;
-    background: rgb(60, 255, 0);
+    background: linear-gradient(145deg, #f2a65a, #e67e22);
+    box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.4), 5px 5px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
     position: relative;
     translate: 0% -65%;
     z-index: 2;
@@ -513,12 +519,12 @@ thus, display:flex from the id was overRiding the (.hidden class) */
     80%{
         color: white;
         opacity: 0.5;
-        transform: rotate(600turn) scale(20);
+        transform: rotate(1000turn) scale(20);
         font-size: medium;
     }
     100%{
         opacity: 0;
-        transform: rotate(1turn);
+        transform: rotate(1000turn);
         filter: drop-shadow(0 0 5px rgb(99, 245, 255));
     }
 }
