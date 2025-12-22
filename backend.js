@@ -19,7 +19,7 @@ class OpenFiles
     constructor(path)
     {
         this.opener(path);
-        console.log(path);
+        // console.log(path);
     }
     opener(path)
     {
@@ -266,6 +266,7 @@ class RecentFIles
     {
         this.recent=[];
         this.init();
+        this.getAPI();
     }
     init()
     {
@@ -289,6 +290,16 @@ class RecentFIles
     currentFileName(filePath)
     {
         return path.basename(filePath);
+    }
+    getAPI()
+    {
+        app.post("/recent-file",(req,res)=>{
+            new OpenFiles(req.body.data);
+            res.json({
+                status:200,
+                message:"Success"
+            })
+        })
     }
 }
 new RecentFIles();
