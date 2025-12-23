@@ -14,12 +14,12 @@
 
   "folders": {
     "default": { "icon": "📁" },
-    "desktop": { "icon": "🖥️" },
-    "documents": { "icon": "📄" },
-    "downloads": { "icon": "⬇️" },
-    "pictures": { "icon": "🖼️" },
-    "videos": { "icon": "📽️" },
-    "music": { "icon": "🎵" },
+    "Desktop": { "icon": "🖥️" },
+    "Documents": { "icon": "📄" },
+    "Downloads": { "icon": "⬇️" },
+    "Pictures": { "icon": "🖼️" },
+    "Videos": { "icon": "📽️" },
+    "Music": { "icon": "🎵" },
     "projects": { "icon": "📋" },
     "code": { "icon": "💻" },
     "system": { "icon": "⚙️" },
