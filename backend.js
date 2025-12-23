@@ -192,6 +192,12 @@ function getIconByExtension(way,x)
     x.forEach(e=>{
             if(fs.statSync(path.join(way,e)).isDirectory())
             {
+                if(icon("folders", e))
+                {
+                    obj[e]={icon:icon('folders', e)};
+
+                }
+                else
                 obj[e]={icon:icon('folders', "default")};
             }
             else
