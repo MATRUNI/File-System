@@ -404,6 +404,7 @@ class RecentFIles
         this.recent.addEventListener("mouseenter",()=>{
         //   this.removeTimeout(this.timeout);
           this.item.classList.remove("hidden");
+          this.init();
         });
         this.recent.addEventListener("mouseleave",(e)=>{
             this.mouseLeave();
@@ -430,6 +431,8 @@ class RecentFIles
 
         document.getElementById("clear-recent").addEventListener('click', ()=>{
             console.log("Clear local Storage Clicked!!!");
+            this.clearLocalStack();
+            this.init();
         })
     }
     mouseLeave()
@@ -480,7 +483,7 @@ class RecentFIles
     }
     clearLocalStack()
     {
-        this.clearLocal();
+        localStorage.removeItem("Recent");
     }
 }
 new RecentFIles();
