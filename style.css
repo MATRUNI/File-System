@@ -367,20 +367,29 @@ thus, display:flex from the id was overRiding the (.hidden class) */
 .recent-children{
     width: 100%;
     height: auto;
+    background: rgba(226, 226, 226, 0.39);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background: red;
+    box-shadow: rgba(131, 131, 131, 0.15) 0px 8px 20px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(255, 255, 255, 0.4);
+    border-image: initial;
     border-radius: 10px;
+    transition: 0.3s ease;
+    cursor: pointer;
 }
 .recent-children:hover{
-    background: rgb(46, 255, 92);
+    /* background: rgb(46, 255, 92); */
+    transform: translateY(-6px);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 25px;
 }
 .path{
     font-size: 15px;
     text-align: center;
     overflow-x: hidden;
-    border-top: 2px dotted pink;
+    border-top: 2px dotted rgb(119, 119, 119);
     padding: 0.5rem;
 }
 .recent-grand-children{
@@ -388,7 +397,6 @@ thus, display:flex from the id was overRiding the (.hidden class) */
     display: flex;
     flex-direction: row; 
     justify-content: space-between;
-    /* background: green; */
 }
 #copied-box{
     position: fixed;
@@ -503,28 +511,28 @@ thus, display:flex from the id was overRiding the (.hidden class) */
     }
     20%{
         color: transparent;
-        transform: rotate(20turn) translate(0);
+        transform: translate(0);
         filter: drop-shadow(0 0 20px rgb(119, 0, 255));
     }
     40%{
         color: transparent;
-        transform: rotate(200turn) scale(1.2);
+        transform: scale(1.2);
         filter: drop-shadow(0 0 5px rgb(34, 255, 119));
     }
     60%{
         color: transparent;
-        transform: rotate(400turn) scale(2.5);
+        transform: scale(2.5);
         filter: drop-shadow(0 0 20px rgb(255, 232, 30));
     }
     80%{
         color: white;
         opacity: 0.5;
-        transform: rotate(1000turn) scale(20);
+        transform: scale(3);
         font-size: medium;
     }
     100%{
         opacity: 0;
-        transform: rotate(1000turn);
+        /* transform: rotate(1000turn); */
         filter: drop-shadow(0 0 5px rgb(99, 245, 255));
     }
 }
