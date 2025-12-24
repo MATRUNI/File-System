@@ -202,12 +202,18 @@ function getIconByExtension(way,x)
             }
             else
             {
-                if(extension(e))
+                if(extension(e)==="music")
                 {
-                    obj[e]=extension(e)==="music"?{icon:icon('folders', "Music")}:{icon:icon('files', extension(e))};
-                    return;
+                    obj[e] = { icon: icon('folders', "Music") };
                 }
-                obj[e]={icon:icon('files', "txt")};
+                else if (icon("files", extension(e)))
+                {
+                    obj[e] ={icon: icon('files', extension(e))};
+                }
+                else
+                {
+                    obj[e]={icon:icon('files', "doc")};
+                }
             }
     });
     return obj;
