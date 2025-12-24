@@ -115,6 +115,7 @@ document.getElementById('mode').addEventListener('click', (e)=>{
     e.currentTarget.classList.toggle("toogle-bg");
     document.getElementById("popup-item").classList.toggle("toogle-bg");
     const currentTheme=document.body.classList.contains("toogle-bg")?"dark":"light";
+    document.body.classList.contains("toogle-bg")?document.getElementById("popup-item").style.color="black":document.getElementById("popup-item").style.color="white";
     localStorageInstance.setter("theme", currentTheme);
 })
 
@@ -204,7 +205,6 @@ function getCall()
             if(Object.keys(dirArray.body).length!=0)
             {
                 renderData(dirArray.body);
-                console.log(dirArray.body)
             }
             else
             emptyFolder();
@@ -214,7 +214,7 @@ function getCall()
             localStorageInstance.setStack("Recent", pwd[lastof(pwd)]);
             pwd.pop();
             presentFolder(pwd[lastof(pwd)]);
-            console.log(dirArray);
+            // console.log(dirArray);
         }
     }
     xhr.send();
@@ -227,7 +227,7 @@ function callingAPI(s)
         dirArray=JSON.parse(xml.responseText);
         pwd=[];
         pwd.push(dirArray.folder);
-        console.log(pwd,"in callingAPI function")
+        // console.log(pwd,"in callingAPI function")
         presentFolder(pwd[lastof(pwd)]);
         renderData(dirArray.body);
     }
@@ -377,43 +377,58 @@ class RecentFIles
         this.recent=document.getElementById("recent");
         this.item=document.getElementById("popup-item");
         this.recentItem=document.getElementById("recent-item");
-        this.recentHeader=document.getElementById("recent-header");
-        this.init();
+        this.recentHeader = document.getElementById("recent-header");
+        this.recentArray = [];
+        this.eventListeners();
+        this.lastCall = 0;   //for throtting!!!
+        this.throttledInit(1000);
     }
     async init()
     {
+        this.getLocalStorageData();
         this.dataObject=await this.initiateAPI();
         this.renderRecent();
-        this.eventListeners();
-
     }
     async initiateAPI()
     {
-        let recentArray=localStorageInstance.getter("Recent");
         let response=await fetch("http://localhost:3000/recent",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
-            body:JSON.stringify({data:recentArray})
+            body:JSON.stringify({data:this.recentArray})
         });
         response=await response.json();
-        // console.log(response.status,": Status");
         return response;
+    }
+    throttledInit(delay)
+    {
+        const now = Date.now()
+        if (now - this.lastCall >= delay)
+        {
+            console.log("throttledInit!!");
+            this.lastCall = now;
+            this.init();
+        }
+        
+    }
+    getLocalStorageData()
+    {
+        this.recentArray=localStorageInstance.getter("Recent");
     }
     eventListeners()
     {
+        let isHovering = false;
         this.recent.addEventListener("mouseenter",()=>{
-        //   this.removeTimeout(this.timeout);
-          this.item.classList.remove("hidden");
-          this.init();
+            isHovering=this.mouseEnter(this.timeout);
+            this.throttledInit(1000);
         });
         this.recent.addEventListener("mouseleave",(e)=>{
-            this.mouseLeave();
+            isHovering=this.mouseLeave(isHovering);
         });
         this.item.addEventListener("mouseenter", ()=>{
-            this.removeTimeout(this.timeout);
+            isHovering=this.mouseEnter(this.timeout)
         });
         this.item.addEventListener("mouseleave", ()=>{
-            this.mouseLeave();
+            isHovering=this.mouseLeave(isHovering);
         });
 
         this.recentItem.addEventListener('click', async(e)=>{
@@ -432,14 +447,24 @@ class RecentFIles
         document.getElementById("clear-recent").addEventListener('click', ()=>{
             console.log("Clear local Storage Clicked!!!");
             this.clearLocalStack();
-            this.init();
+            this.throttledInit(1000);
         })
     }
-    mouseLeave()
+    mouseEnter(time)
     {
-        this.timeout=setTimeout(()=>{
-          this.item.classList.add("hidden");
-        },500)
+        this.removeTimeout(time);
+        this.item.classList.remove("hidden");
+        return true;
+    }
+    mouseLeave(isHovering=false)
+    {
+        if (isHovering) {
+            this.timeout = setTimeout(() => {
+                this.item.classList.add("hidden");
+            }, 500)
+        }
+        else
+            return false;
     }
     instantFade()
     {
@@ -477,7 +502,6 @@ class RecentFIles
             divmain.append(divSub, divPath)
 
             recentItems.append(divmain)
-            console.log(count)
             count++;
         }
     }
