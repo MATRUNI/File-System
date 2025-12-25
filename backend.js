@@ -315,3 +315,26 @@ class RecentFIles
     }
 }
 new RecentFIles();
+
+class Search
+{
+    constructor()
+    {
+        this.init();
+    }
+    init()
+    {
+        app.get("/search",(req,res)=>{
+            console.log(req.query);
+            res.json({
+                status:"200",
+                message:"GHANTA!~"
+            })
+        })
+    }
+    search(data)
+    {
+        //implement the search logic here
+    }
+}
+new Search();

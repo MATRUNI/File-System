@@ -511,3 +511,44 @@ class RecentFIles
     }
 }
 new RecentFIles();
+
+class Search
+{
+    constructor()
+    {
+        this.search=document.getElementById("search");
+        this.searched="";
+        this.lastCall;
+        this.listener();
+    }
+    listener()
+    {
+        this.search.addEventListener("input",e=>{
+            if(e.data==null&&this.searched!="")
+            {
+                this.searched=this.searched.slice(0,-1)
+            }
+            else
+            this.searched+=e.data;
+
+            this.debounce(()=>{
+                this.API();
+            });
+            console.log(this.searched)
+        });
+    }
+    async API()
+    {
+        console.log("API CALLED!! with::",this.searched);
+        let url=`http://localhost:3000/search?${this.searched}:${pwd[lastof(pwd)]}`;
+        let response=await fetch(url);
+        response=await response.json();
+        console.log(response.message);
+    }
+    debounce(func)
+    {
+        clearTimeout(this.lastCall);
+        this.lastCall=setTimeout(func,1000);
+    }
+}
+new Search();
