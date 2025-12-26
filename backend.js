@@ -324,55 +324,65 @@ class Search
     }
     init()
     {
-        app.get("/search",(req,res)=>{
+        app.get("/search",async (req,res)=>{
             let query=Object.keys(req.query)[0];
             let path=req.query[query];
             console.log(query,"::",path);
-            this.search(path, query);
+            let files=await this.search(path, query);
+            console.log(files);
             res.json({
                 status:"200",
-                message:"GHANTA!~"
+                message:"GHANTA!~",
+                result:files
             })
         })
     }
     search(path="",query)
     {
         //implement the search logic here
-        let primaryCmd,cmd;
+        let primaryCmd,cmd,fallBackCmd,cmd1;
         switch(process.platform)
         {
             case "win32":
                 cmd="powershell";
                 path=path==""?"C:\\":path;
-                primaryCmd=["-Command" ,"Get-ChildItem",path ,"-Filter",query,"-Recurse"];
+                primaryCmd=["-Command" ,"Get-ChildItem",path ,"-Filter",`*${query}*`,"-Recurse"];
                 break;
             case "darwin":
                 cmd="mdfind";
                 path=path==""?home:path;
-                primaryCmd=["-onlyin",path,"-name",query];
-                // fallBackCmd=[`find / "${query}" 2>/dev/null`];
+                primaryCmd=["-onlyin",path,"-iname",`*${query}*`];
+                cmd1="find";
+                fallBackCmd=[path,"-iname",`*${query}*`];
                 break;
             case "linux":
-                // cmd="locate";
-                // primaryCmd=[query];
-                // fallBackCmd=[`find / "${query}" 2>/dev/null`];
+                cmd="locate";
+                primaryCmd=[`*${query}*`];
 
                 //this is the fallback logic, because my distro is so fucking modern that
                 // mlocate doesn't comes for it yet
-                cmd="find";
-                primaryCmd=[path,"-name",query]
+                cmd1="find";
+                fallBackCmd=[path,"-iname",`*${query}*`]
                 break;
             default:
                 console.log("Error While searching... ",query)
                 break;
         }
-        this.primarySearch(cmd, primaryCmd)
+        return this.primarySearch(cmd, primaryCmd)
         .then(data=>{
-            console.log(data);
+            return data;
         })
         .catch(err=>{
-            console.log(err);
-        })
+            console.log("Primary Search failed!!")
+            return this.primarySearch(cmd1, fallBackCmd)
+            .then(data1=>{
+                console.log("Secondary search complete:");
+                return data1;
+            })
+            .catch(error=>{
+                console.log(error);
+            })
+        });
     }
     primarySearch(cmd,command)
     {
@@ -382,17 +392,15 @@ class Search
             child.stdout.on("data",(data)=>{
                 output+=data.toString();
             });
-            child.on("error",reject);
+            child.on("error",(err)=>{
+                reject(err);
+            });
 
             child.on("close", code=>{
                 if(code!=0) return reject(new Error(`Exit Code ${code}`));
-                resolve(output.trim());
+                resolve(output.trim().split("\n"));
             });
         })
-    }
-    fallBackSearch(cmd,path)
-    {
-
     }
 }
 new Search();
