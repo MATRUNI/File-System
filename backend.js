@@ -325,16 +325,74 @@ class Search
     init()
     {
         app.get("/search",(req,res)=>{
-            console.log(req.query);
+            let query=Object.keys(req.query)[0];
+            let path=req.query[query];
+            console.log(query,"::",path);
+            this.search(path, query);
             res.json({
                 status:"200",
                 message:"GHANTA!~"
             })
         })
     }
-    search(data)
+    search(path="",query)
     {
         //implement the search logic here
+        let primaryCmd,cmd;
+        switch(process.platform)
+        {
+            case "win32":
+                cmd="powershell";
+                path=path==""?"C:\\":path;
+                primaryCmd=["-Command" ,"Get-ChildItem",path ,"-Filter",query,"-Recurse"];
+                break;
+            case "darwin":
+                cmd="mdfind";
+                path=path==""?home:path;
+                primaryCmd=["-onlyin",path,"-name",query];
+                // fallBackCmd=[`find / "${query}" 2>/dev/null`];
+                break;
+            case "linux":
+                // cmd="locate";
+                // primaryCmd=[query];
+                // fallBackCmd=[`find / "${query}" 2>/dev/null`];
+
+                //this is the fallback logic, because my distro is so fucking modern that
+                // mlocate doesn't comes for it yet
+                cmd="find";
+                primaryCmd=[path,"-name",query]
+                break;
+            default:
+                console.log("Error While searching... ",query)
+                break;
+        }
+        this.primarySearch(cmd, primaryCmd)
+        .then(data=>{
+            console.log(data);
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    }
+    primarySearch(cmd,command)
+    {
+        return new Promise((resolve,reject)=>{
+            let child=spawn(cmd,command);
+            let output="";
+            child.stdout.on("data",(data)=>{
+                output+=data.toString();
+            });
+            child.on("error",reject);
+
+            child.on("close", code=>{
+                if(code!=0) return reject(new Error(`Exit Code ${code}`));
+                resolve(output.trim());
+            });
+        })
+    }
+    fallBackSearch(cmd,path)
+    {
+
     }
 }
 new Search();
