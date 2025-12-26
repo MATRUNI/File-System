@@ -213,10 +213,10 @@ function getCall()
         {
             localStorageInstance.setStack("Recent", pwd[lastof(pwd)]);
             pwd.pop();
-            presentFolder(pwd[lastof(pwd)]);
             // console.log(dirArray);
         }
     }
+    presentFolder(pwd[lastof(pwd)]);
     xhr.send();
 }
 
@@ -540,7 +540,7 @@ class Search
     async API()
     {
         console.log("API CALLED!! with::",this.searched);
-        let url=`http://localhost:3000/search?${this.searched}:${pwd[lastof(pwd)]}`;
+        let url=`http://localhost:3000/search?${this.searched}=${pwd[lastof(pwd)]}`;
         let response=await fetch(url);
         response=await response.json();
         console.log(response.message);
