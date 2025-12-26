@@ -481,27 +481,8 @@ class RecentFIles
         recentItems.innerHTML="";
         let count=0;
         for(let key in this.dataObject.data)
-            {
-            let divmain=document.createElement('div');
-            divmain.classList.add("recent-children")
-            let divSub=document.createElement('div');
-            divSub.classList.add("recent-grand-children")
-            let divIcon=document.createElement('div');
-            divIcon.classList.add("file-icon");
-            let divSubName=document.createElement('div');
-            divSubName.classList.add("file-name")
-            let divPath=document.createElement('div');
-            divPath.classList.add("path");
-
-            divSubName.textContent=key;
-            divIcon.textContent=this.dataObject.data[key].icon;
-            divPath.textContent=this.dataObject.path[count];
-
-            divSub.append(divIcon,divSubName);
-
-            divmain.append(divSub, divPath)
-
-            recentItems.append(divmain)
+        {
+            render(recentItems,this.dataObject.data[key].icon,this.dataObject.path[count],key);
             count++;
         }
     }
@@ -512,6 +493,29 @@ class RecentFIles
 }
 new RecentFIles();
 
+function render(element,icon,path,name)
+{
+    let divmain=document.createElement('div');
+    divmain.classList.add("recent-children")
+    let divSub=document.createElement('div');
+    divSub.classList.add("recent-grand-children")
+    let divIcon=document.createElement('div');
+    divIcon.classList.add("file-icon");
+    let divSubName=document.createElement('div');
+    divSubName.classList.add("file-name")
+    let divPath=document.createElement('div');
+    divPath.classList.add("path");
+        
+    divSubName.textContent=name;
+    divIcon.textContent=icon;
+    divPath.textContent=path;
+
+    divSub.append(divIcon,divSubName);
+
+    divmain.append(divSub, divPath)
+
+    element.append(divmain)
+}
 class Search
 {
     constructor()
@@ -534,7 +538,6 @@ class Search
             this.debounce(()=>{
                 this.API();
             });
-            console.log(this.searched)
         });
     }
     async API()
@@ -543,7 +546,9 @@ class Search
         let url=`http://localhost:3000/search?${this.searched}=${pwd[lastof(pwd)]}`;
         let response=await fetch(url);
         response=await response.json();
-        console.log(response.message);
+        let result=response.result;
+        console.log(result);
+        console.log(typeof result);
     }
     debounce(func)
     {
