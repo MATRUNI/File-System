@@ -542,13 +542,24 @@ class Search
     }
     async API()
     {
+        if(this.searched==="")
+            return;
         console.log("API CALLED!! with::",this.searched);
         let url=`http://localhost:3000/search?${this.searched}=${pwd[lastof(pwd)]}`;
         let response=await fetch(url);
         response=await response.json();
-        let result=response.result;
-        console.log(result);
-        console.log(typeof result);
+        let result=response.paths;
+        let count=0;
+        display.textContent="";
+        display.innerHTML="";
+        for(let key in response.dataObj)
+        {
+            // console.log(key,"::",response.dataObj[key].icon);
+            // console.log(result[count]);
+            render(display, response.dataObj[key].icon, result[count], key);
+            count++;
+        }
+        // console.log(typeof result);
     }
     debounce(func)
     {
