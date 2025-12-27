@@ -2,6 +2,7 @@ const express = require("express");
 const cors= require("cors");
 const path=require("path");
 const app=express();
+const icons=require("./icons.json");
 
 const {spawn}=require("child_process");
 app.use(cors({
@@ -181,7 +182,6 @@ app.post("/create",(req,res)=>{
 
 function icon(type,metadata)
 {
-    let icons=require("./icons.json");
     if(icons[type][metadata]===undefined)
     return;
     return icons[type][metadata]["icon"];
@@ -329,11 +329,12 @@ class Search
             let path=req.query[query];
             console.log(query,"::",path);
             let files=await this.search(path, query);
-            console.log(files);
+            let obj=this.getIcons(files);
             res.json({
                 status:"200",
                 message:"GHANTA!~",
-                result:files
+                paths:files,
+                dataObj:obj
             })
         })
     }
@@ -401,6 +402,44 @@ class Search
                 resolve(output.trim().split("\n"));
             });
         })
+    }
+
+    // following function is talking an array and giving out an Object
+    // Array constains Absolute Paths of searched items,
+    // returned object would have  names and icons for these items
+    getIcons(arr)
+    {
+        let obj={};
+        arr.forEach(item=>{
+            let baseName=path.basename(item);
+            if(fs.statSync(item).isDirectory())
+            {
+                if(icon("folders", baseName))
+                {
+                    obj[baseName]={icon:icon('folders', e)};
+
+                }
+                else
+                obj[baseName]={icon:icon('folders', "default")};
+            }
+            else
+            {
+                if(extension(baseName)==="music")
+                {
+                    obj[baseName] = { icon: icon('folders', "Music") };
+                }
+                else if (icon("files", extension(baseName)))
+                {
+                    obj[baseName] ={icon: icon('files', extension(baseName))};
+                }
+                else
+                {
+                    obj[baseName]={icon:icon('files', "doc")};
+                }
+            }
+
+        });
+        return obj;
     }
 }
 new Search();
