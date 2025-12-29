@@ -131,7 +131,6 @@ window.addEventListener("DOMContentLoaded", ()=>{
 // event Listener to copy the path to the clipBoard
 currentFolder.addEventListener("dblclick", ()=>{
     // this should copy from toClipBoard variable to the clip board 
-    console.log("ClipBoard Listner");
     navigator.clipboard.writeText(toClipBoard)
     .then(addClass)
     .catch(err=>{console.log(err)});
@@ -151,7 +150,6 @@ display.addEventListener('dblclick', item=>{
     if(!clicked || !clicked.querySelector("p"))
         return;
     pwd.push(pwd[lastof(pwd)]+"/"+clicked.querySelector("p").textContent);
-    // presentFolder(pwd[lastof(pwd)]);
     fetcher(pwd[lastof(pwd)], true);
 });
 // EventListener for forward and backward
@@ -209,6 +207,7 @@ function getCall()
             }
             else
             emptyFolder();
+        presentFolder(pwd[lastof(pwd)]);
         }
         else
         {
@@ -217,7 +216,6 @@ function getCall()
             // console.log(dirArray);
         }
     }
-    presentFolder(pwd[lastof(pwd)]);
     xhr.send();
 }
 
@@ -281,7 +279,7 @@ function presentFolder(a)
 {
     toClipBoard=a;
     currentFolder.textContent="Current-Folder: "+a.substring(a.lastIndexOf("/")+1);
-    currentFolder.title=a+" (Double click to Copy to the ClipBoard)";
+    currentFolder.title=a+" (Double-click to copy the path to the ClipBoard)";
 }
 
 function lastof(a)
@@ -337,6 +335,7 @@ class Section
 
     async callBackend(path)
     {
+        removeFlexToDisplay();
         let result=await fetch("http://localhost:3000/special",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
@@ -344,7 +343,15 @@ class Section
         });
         result=await result.json();
         pwd.push(result.path);
-        renderData(result.data);
+        presentFolder(result.path);
+        if(Object.keys(result.data).length!=0)
+        {
+            renderData(result.data);
+        }
+        else
+        {
+            emptyFolder();
+        }
     }
 }
 new Section();
