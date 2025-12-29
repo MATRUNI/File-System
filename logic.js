@@ -194,6 +194,7 @@ function fetcher(a, order)
 }
 function getCall()
 {
+    removeFlexToDisplay();          // this is to remove flex property from the display area, if it has by some chance
     const xhr=new XMLHttpRequest();
 
     xhr.open("GET", "http://localhost:3000/to")
@@ -222,6 +223,7 @@ function getCall()
 
 function callingAPI(s)
 {
+    removeFlexToDisplay();
     xml.open("GET", `http://localhost:3000/${s.join("/")}`)
     xml.onload=()=>{
         dirArray=JSON.parse(xml.responseText);
@@ -404,7 +406,6 @@ class RecentFIles
         const now = Date.now()
         if (now - this.lastCall >= delay)
         {
-            console.log("throttledInit!!");
             this.lastCall = now;
             this.init();
         }
@@ -544,6 +545,7 @@ class Search
     {
         if(this.searched==="")
             return;
+        this.buffering();
         console.log("API CALLED!! with::",this.searched);
         let url=`http://localhost:3000/search?${this.searched}=${pwd[lastof(pwd)]}`;
         let response=await fetch(url);
@@ -554,17 +556,28 @@ class Search
         display.innerHTML="";
         for(let key in response.dataObj)
         {
-            // console.log(key,"::",response.dataObj[key].icon);
-            // console.log(result[count]);
+            display.classList.add("flex");
             render(display, response.dataObj[key].icon, result[count], key);
             count++;
         }
-        // console.log(typeof result);
+        this.search.value="";
+        this.search.blur();
     }
     debounce(func)
     {
         clearTimeout(this.lastCall);
         this.lastCall=setTimeout(func,1000);
     }
+    buffering()
+    {
+        display.innerHTML="";
+        display.textContent="";
+        display.textContent="Searching....";
+    }
 }
 new Search();
+
+function removeFlexToDisplay()
+{
+    display.classList.remove("flex");
+}
