@@ -188,6 +188,10 @@ body{
     border-color: rgb(148, 119, 255)
 }
 
+#display-area.flex{
+    display: flex;
+    flex-direction: column;
+}
 .file-card{
     width: 10rem;
     height: 10rem;
