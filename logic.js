@@ -149,8 +149,7 @@ display.addEventListener('dblclick', item=>{
     let clicked=item.target.closest(".file-card");
     if(!clicked || !clicked.querySelector("p"))
         return;
-    pwd.push(pwd[lastof(pwd)]+"/"+clicked.querySelector("p").textContent);
-    fetcher(pwd[lastof(pwd)], true);
+    fetcher(pwd[lastof(pwd)]+"/"+clicked.querySelector("p").textContent, true);
 });
 // EventListener for forward and backward
 head.addEventListener("click", e=>{
@@ -187,6 +186,7 @@ function fetcher(a, order)
     .then(res=>res.json())
     .then(result=>{
         //this one line took me hours to fix lol, why? because i put the get call function in .then directly, it was executing synchronously
+        pwd.push(result.data);
         getCall();
     }).catch(err=> console.log(err));
 }
