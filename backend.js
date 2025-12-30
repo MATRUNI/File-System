@@ -146,6 +146,18 @@ app.post("/size",(req,res)=>{
     });
 });
 
+app.post("/normalize",(req,res)=>{
+    let arr=req.body.data;
+    if(arr.length!=0)
+    {
+        arr.forEach(e=>{
+            e=pathNormalise(e);
+        });
+        res.json({
+            data:arr
+        })
+    }
+})
 app.post("/create",(req,res)=>{
     if(req.body.type==="folder")
     {
@@ -404,7 +416,7 @@ class Search
 
             child.on("close", code=>{
                 if(code!=0) return reject(new Error(`Exit Code ${code}`));
-                resolve(output.trim().split("\r?\n"));
+                resolve(output.trim().split(/\r?\n/));
             });
         })
     }
