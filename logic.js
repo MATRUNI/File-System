@@ -149,7 +149,14 @@ display.addEventListener('dblclick', item=>{
     let clicked=item.target.closest(".file-card");
     if(!clicked || !clicked.querySelector("p"))
         return;
-    fetcher(pwd[lastof(pwd)]+"/"+clicked.querySelector("p").textContent, true);
+    pwd.push(pwd[lastof(pwd)]+"/"+clicked.querySelector("p").textContent);
+    normalize(pwd)
+    .then(res=>{
+        pwd=res.data;
+        fetcher(pwd[lastof(pwd)], true);
+    }).catch(err=>{
+        console.log(err);
+    })
 });
 // EventListener for forward and backward
 head.addEventListener("click", e=>{
@@ -186,7 +193,6 @@ function fetcher(a, order)
     .then(res=>res.json())
     .then(result=>{
         //this one line took me hours to fix lol, why? because i put the get call function in .then directly, it was executing synchronously
-        pwd.push(result.data);
         getCall();
     }).catch(err=> console.log(err));
 }
@@ -218,7 +224,21 @@ function getCall()
     }
     xhr.send();
 }
-
+function normalize(arr)
+{
+    return new Promise((resolve,reject)=>{
+        fetch("http://localhost:3000/normalize",{
+            method:"POST",
+            headers: {"Content-Type":"application/json"},
+            body:JSON.stringify({data:arr})
+        })
+        .then(res=>{
+            resolve(res.json())
+        }).catch(err=>{
+            reject("Error:",err)
+        })
+    })
+}
 function callingAPI(s)
 {
     removeFlexToDisplay();
