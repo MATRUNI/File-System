@@ -74,9 +74,9 @@ app.get("/home",(req, res)=>{
 
 //call from fetcher function
 app.post("/navigate",(req,res)=>{
+    pwd=path.normalize(req.body.body);
     if(req.body.forward)
     {
-        pwd=path.normalize(req.body.body);
         res.json({
             message:"Accepted",
             data:pwd
@@ -84,7 +84,6 @@ app.post("/navigate",(req,res)=>{
     }
     else
     {
-        pwd=req.body.body;
         res.json({
             message:"Accepted",
             data:pwd
@@ -130,6 +129,10 @@ function readFolder(path)
     })
 }
 
+function pathNormalise(add)
+{
+    return path.normalize(add);
+}
 // call from hoverSize function
 app.post("/size",(req,res)=>{
     console.log(req.body.folder)
@@ -290,7 +293,6 @@ class RecentFIles
                 newObj={...newObj,...getIconByExtension(path.dirname(element),[this.currentFileName(element)])};
                 fullPath.push(element);
             });
-            // console.log(fullPath);
             res.json({
                 status:200,
                 message: "Accepted",
@@ -327,7 +329,6 @@ class Search
         app.get("/search",async (req,res)=>{
             let query=Object.keys(req.query)[0];
             let path=req.query[query];
-            console.log(query,"::",path);
             let files=await this.search(path, query);
             let obj=this.getIcons(files);
             res.json({
@@ -338,23 +339,27 @@ class Search
             })
         })
     }
-    search(path="",query)
+    search(address="",query)
     {
         //implement the search logic here
         let primaryCmd,cmd,fallBackCmd,cmd1;
+        address=pathNormalise(address);
         switch(process.platform)
         {
             case "win32":
                 cmd="powershell";
-                path=path==""?"C:\\":path;
-                primaryCmd=["-Command" ,"Get-ChildItem",path ,"-Filter",`*${query}*`,"-Recurse"];
+                address=address==""?"C:\\":address;
+                primaryCmd=["Get-ChildItem","-Path",`"${address}"`,"-Filter",`"*${query}*"`,"-Recurse","-ErrorAction","SilentlyContinue","|","Select-Object","-ExpandProperty","FullName"].join(' ');
+                primaryCmd=["-NoProfile","-Command",primaryCmd];
+                cmd1="cmd.exe";
+                fallBackCmd=["/c","dir",`"${address}\\*${query}*"`,"/s","/b"]
                 break;
             case "darwin":
                 cmd="mdfind";
-                path=path==""?home:path;
-                primaryCmd=["-onlyin",path,"-iname",`*${query}*`];
+                address=address==""?home:address;
+                primaryCmd=["-onlyin",address,"-iname",`*${query}*`];
                 cmd1="find";
-                fallBackCmd=[path,"-iname",`*${query}*`];
+                fallBackCmd=[address,"-iname",`*${query}*`];
                 break;
             case "linux":
                 cmd="locate";
@@ -363,7 +368,7 @@ class Search
                 //this is the fallback logic, because my distro is so fucking modern that
                 // mlocate doesn't comes for it yet
                 cmd1="find";
-                fallBackCmd=[path,"-iname",`*${query}*`]
+                fallBackCmd=[address,"-iname",`*${query}*`]
                 break;
             default:
                 console.log("Error While searching... ",query)
@@ -399,7 +404,7 @@ class Search
 
             child.on("close", code=>{
                 if(code!=0) return reject(new Error(`Exit Code ${code}`));
-                resolve(output.trim().split("\n"));
+                resolve(output.trim().split("\r?\n"));
             });
         })
     }
