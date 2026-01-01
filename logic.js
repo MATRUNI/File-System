@@ -570,7 +570,7 @@ class Search
     }
     async API()
     {
-        if(this.searched==="")
+        if(this.searched.trim()==="")
             return;
         this.buffering();
         console.log("API CALLED!! with::",this.searched);
@@ -588,6 +588,7 @@ class Search
             count++;
         }
         this.search.value="";
+        this.searched="";
         this.search.blur();
     }
     debounce(func)

@@ -354,6 +354,8 @@ class Search
     search(address="",query)
     {
         //implement the search logic here
+        if(this.stringCheck(query))
+            return;
         let primaryCmd,cmd,fallBackCmd,cmd1;
         address=pathNormalise(address);
         switch(process.platform)
@@ -420,6 +422,10 @@ class Search
             });
         })
     }
+    stringCheck(str)
+    {
+        return str.trim().length ===0?true:false;
+    }
 
     // following function is talking an array and giving out an Object
     // Array constains Absolute Paths of searched items,
@@ -429,7 +435,7 @@ class Search
         let obj={};
         arr.forEach(item=>{
             let baseName=path.basename(item);
-            if(fs.statSync(item).isDirectory())
+            if(this.stringCheck(item)&&fs.statSync(item).isDirectory())
             {
                 if(icon("folders", baseName))
                 {
