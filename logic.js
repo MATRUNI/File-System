@@ -106,7 +106,6 @@ class LocalStack
     setter(key, value)
     {
         localStorage.setItem(key, JSON.stringify(value));
-        console.log("Setter Saved!");
     }
 }
 let localStorageInstance=new LocalStack();
@@ -382,7 +381,6 @@ function emptyFolder()
     let element=document.createElement("div");
     element.id="sub";
     element.innerHTML=`
-        <div class="circle">?!</div>
         <div class="top"></div>
         <div class="back"></div>
         <div class="front">
@@ -391,12 +389,6 @@ function emptyFolder()
         <p>Khali Hai Salle!!</p>
     `;
     display.appendChild(element);
-    element.querySelector(".front").addEventListener("mouseenter", ()=>{
-        let circle=element.querySelector(".circle");
-        circle.classList.remove('animation');
-        void circle.offsetWidth;
-        circle.classList.add('animation');
-    })
 }
 class RecentFIles
 {
@@ -461,7 +453,6 @@ class RecentFIles
 
         this.recentItem.addEventListener('click', async(e)=>{
             let index=Array.from(this.recentItem.children).indexOf(e.target.closest(".recent-children"));
-            console.log(this.dataObject.path[index]);
             let response=await fetch("http://localhost:3000/recent-file",{
                 method:"POST",
                 headers:{"Content-Type":"application/json"},
@@ -469,11 +460,9 @@ class RecentFIles
             });
             this.instantFade();
             let result= await response;
-            console.log(result.status);
         });
 
         document.getElementById("clear-recent").addEventListener('click', ()=>{
-            console.log("Clear local Storage Clicked!!!");
             this.clearLocalStack();
             this.throttledInit(1000);
         })
