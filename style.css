@@ -486,3 +486,51 @@ thus, display:flex from the id was overRiding the (.hidden class) */
     width: 2rem;
     background: var(--back);
 }
+
+#display-area.buffer{
+    display: flex;
+    justify-content: center;
+    height: 30vh;
+    overflow-y: hidden;
+}
+.gravity-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.dot {
+    width: 15px;
+    height: 15px;
+    background: #00dbde;
+    border-radius: 50%;
+    box-shadow: 0 0 20px #00dbde, 0 0 40px #00dbde;
+    animation: gravity-jump 1.5s infinite cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.dot:nth-child(2) { 
+    animation-delay: 0.2s; 
+    background: #fc00ff;
+    box-shadow: 0 0 20px #fc00ff, 0 0 40px #fc00ff;
+}
+.dot:nth-child(3) { 
+    animation-delay: 0.4s; 
+    background: #fff;
+    box-shadow: 0 0 20px #fff, 0 0 40px #fff;
+}
+@keyframes gravity-jump {
+    0% {
+        transform: translateY(100px); 
+        opacity: 0;
+    }
+    30% {
+        transform: translateY(0); 
+        opacity: 1;
+    }
+    70% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+}

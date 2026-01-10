@@ -197,7 +197,7 @@ function fetcher(a, order)
 }
 function getCall()
 {
-    removeFlexToDisplay();          // this is to remove flex property from the display area, if it has by some chance
+    removeClass(display,"flex");          // this is to remove flex property from the display area, if it has by some chance
     const xhr=new XMLHttpRequest();
 
     xhr.open("GET", "http://localhost:3000/to")
@@ -240,7 +240,7 @@ function normalize(arr)
 }
 function callingAPI(s)
 {
-    removeFlexToDisplay();
+    removeClass(display,"flex");
     xml.open("GET", `http://localhost:3000/${s.join("/")}`)
     xml.onload=()=>{
         dirArray=JSON.parse(xml.responseText);
@@ -354,7 +354,7 @@ class Section
 
     async callBackend(path)
     {
-        removeFlexToDisplay();
+        removeClass(display,"flex");
         let result=await fetch("http://localhost:3000/special",{
             method:"POST",
             headers:{"Content-Type":"application/json"},
@@ -568,11 +568,12 @@ class Search
         response=await response.json();
         let result=response.paths;
         let count=0;
+        removeClass(display, "buffer")
         display.textContent="";
         display.innerHTML="";
+        display.classList.add("flex");
         for(let key in response.dataObj)
         {
-            display.classList.add("flex");
             render(display, response.dataObj[key].icon, result[count], key);
             count++;
         }
@@ -589,12 +590,21 @@ class Search
     {
         display.innerHTML="";
         display.textContent="";
-        display.textContent="Searching....";
+        display.classList.add("buffer");
+        // display.textContent="Searching....";
+        display.innerHTML=`
+        <div class="gravity-container">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+        <h2>Searching...</h2>
+        `;
     }
 }
 new Search();
 
-function removeFlexToDisplay()
+function removeClass(element,clas)
 {
-    display.classList.remove("flex");
+    element.classList.remove(clas);
 }
