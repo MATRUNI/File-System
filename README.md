@@ -1,4 +1,5 @@
 
+
 # 📁 File System Viewer
 
 A simple web-based file system project that allows users to **view, open, create, and search files** from their computer using **plain HTML, CSS, and JavaScript** on the frontend, with a **Node.js backend** to interact with the local file system.
@@ -35,7 +36,7 @@ A simple web-based file system project that allows users to **view, open, create
 ```
 File-System/
 │
-├── testing						# Things I took inspiration from
+├── testing			  # Things I took inspiration from
 ├── backend.js        # Server-side file system logic
 ├── index.html        # Main UI
 ├── style.css         # Styling
@@ -67,15 +68,15 @@ node index.html
 ```
 ---
 ##  Project Scope & Limitations
-```
--   ❌ No delete file functionality
+
+ ❌ No delete file functionality
     
--   ❌ No authentication or permissions
+❌ No authentication or permissions
     
--   ❌ No frontend frameworks
+❌ No frontend frameworks
     
--   ❌ Basic UI (functionality-focused)
-```
+ ❌ Basic UI (functionality-focused)
+
 ### This project is intended for learning and practice purposes.
 ---
 ##  What I Learned
@@ -96,8 +97,6 @@ node index.html
 -   Add delete functionality
     
 -   Improve UI/UX
-    
--   Support folder navigation
     
 -   Add access control
     
