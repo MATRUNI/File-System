@@ -12,7 +12,7 @@ A simple web-based file system project that allows users to **view, open, create
 
 - 📂 View files from the local system  
 - 📄 Open and read files  
-- ✏️ Create new files  
+- ✏️ Create new files and folders 
 - 🔍 Search for files  
 - 🖥️ Simple UI built using **Vanilla JavaScript** (no frameworks)
 
@@ -64,7 +64,7 @@ node backend.js
 ```
 ### 4. Run the Application
 ```
-node index.html
+index.html
 ```
 ---
 ##  Project Scope & Limitations
