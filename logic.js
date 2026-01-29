@@ -572,10 +572,17 @@ class Search
         display.textContent="";
         display.innerHTML="";
         display.classList.add("flex");
-        for(let key in response.dataObj)
+        if(response.dataObj==="No-DATA")
         {
-            render(display, response.dataObj[key].icon, result[count], key);
-            count++;
+            emptyFolder();
+        }
+        else
+        {
+            for(let key in response.dataObj)
+            {
+                render(display, response.dataObj[key].icon, result[count], key);
+                count++;
+            }
         }
         this.search.value="";
         this.searched="";
