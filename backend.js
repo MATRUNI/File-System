@@ -342,13 +342,24 @@ class Search
             let query=Object.keys(req.query)[0];
             let path=req.query[query];
             let files=await this.search(path, query);
-            let obj=this.getIcons(files);
-            res.json({
-                status:"200",
-                message:"GHANTA!~",
-                paths:files,
-                dataObj:obj
-            })
+            if(files.length===1)
+            {
+                res.json({
+                    status:"200",
+                    Message:"Empty",
+                    dataObj:"No-DATA"
+                })
+            }
+            else
+            {
+                let obj=this.getIcons(files);
+                res.json({
+                    status:"200",
+                    message:"GHANTA!~",
+                    paths:files,
+                    dataObj:obj
+                });
+            }
         })
     }
     search(address="",query)
