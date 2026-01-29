@@ -591,14 +591,15 @@ class Search
         display.innerHTML="";
         display.textContent="";
         display.classList.add("buffer");
-        // display.textContent="Searching....";
         display.innerHTML=`
+        <div id="buffering">
+            <h1>Searching</h1>
+        </div>
         <div class="gravity-container">
             <div class="dot"></div>
             <div class="dot"></div>
             <div class="dot"></div>
         </div>
-        <h2>Searching...</h2>
         `;
     }
 }
