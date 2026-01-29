@@ -246,7 +246,6 @@ function callingAPI(s)
         dirArray=JSON.parse(xml.responseText);
         pwd=[];
         pwd.push(dirArray.folder);
-        // console.log(pwd,"in callingAPI function")
         presentFolder(pwd[lastof(pwd)]);
         renderData(dirArray.body);
     }
@@ -572,9 +571,23 @@ class Search
         display.textContent="";
         display.innerHTML="";
         display.classList.add("flex");
+        this.renderResult(response,result,count)
+    }
+    renderResult(response,result,count)
+    {
         if(response.dataObj==="No-DATA")
         {
-            emptyFolder();
+    
+            display.innerHTML="";
+            let element=document.createElement("div");
+            element.id="sub";
+            element.innerHTML=`
+                <div>
+                    <h2>No Results Found</h2>
+                    <button class="new-folder" id="back_to_home">Back To home</button>
+                </div>
+            `;
+            display.appendChild(element);
         }
         else
         {
@@ -587,6 +600,10 @@ class Search
         this.search.value="";
         this.searched="";
         this.search.blur();
+        let backToHome=document.getElementById("back_to_home");
+        backToHome.addEventListener("click", ()=>{
+            callingAPI(['home']);
+        })
     }
     debounce(func)
     {
