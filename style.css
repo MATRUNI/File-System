@@ -492,10 +492,22 @@ thus, display:flex from the id was overRiding the (.hidden class) */
     justify-content: center;
     height: 30vh;
     overflow-y: hidden;
+    #buffering{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #f1f1f1;
+        h1{
+            font-weight: 400;
+            font-style: oblique;
+            font-display: fallback;
+        }
+    }
 }
 .gravity-container {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 15px;
 }
 .dot {
