@@ -441,7 +441,7 @@ thus, display:flex from the id was overRiding the (.hidden class) */
 @property --back{
     syntax: '<color>';
     inherits: false;
-    initial-value: #f0f4f8;
+    initial-value: #e9c916;
 }
 .top{
     height: 1rem;
@@ -464,7 +464,7 @@ thus, display:flex from the id was overRiding the (.hidden class) */
 .front{
     height: 4rem;
     width: 6.3rem;
-    background: linear-gradient(145deg, #f2a65a, #e67e22);
+    background: linear-gradient(145deg, #e4cf18, #ffd20a);
     box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.4), 5px 5px 15px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
 
@@ -484,7 +484,7 @@ thus, display:flex from the id was overRiding the (.hidden class) */
 #transp{
     height: 0.1rem;
     width: 2rem;
-    background: var(--back);
+    background: white;
 }
 
 #display-area.buffer{
