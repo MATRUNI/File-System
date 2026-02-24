@@ -544,14 +544,8 @@ class Search
     listener()
     {
         this.search.addEventListener("input",e=>{
-            if(e.data==null&&this.searched!="")
-            {
-                this.searched=this.searched.slice(0,-1)
-            }
-            else
-            this.searched+=e.data;
-
             this.debounce(()=>{
+                this.searched=this.search.value
                 this.API();
             });
         });
@@ -588,6 +582,11 @@ class Search
                 </div>
             `;
             display.appendChild(element);
+            this.search.value=""
+            let backToHome=document.getElementById("back_to_home");
+            backToHome.addEventListener("click", ()=>{
+                callingAPI(['home']);
+            })
         }
         else
         {
@@ -597,13 +596,9 @@ class Search
                 count++;
             }
         }
-        this.search.value="";
+        // this.search.value="";
         this.searched="";
         this.search.blur();
-        let backToHome=document.getElementById("back_to_home");
-        backToHome.addEventListener("click", ()=>{
-            callingAPI(['home']);
-        })
     }
     debounce(func)
     {
