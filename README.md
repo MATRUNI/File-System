@@ -8,6 +8,23 @@ A simple web-based file system project that allows users to **view, open, create
 
 ---
 
+## Preview
+
+- Backend Running
+
+![Backend-running](./assets/backend_running.png)
+
+- Frontend Preview
+
+![Frontend-preview](./assets/frontend-preview.png)
+
+- Search Preview
+
+![search-preview](./assets/search-preview.png)
+
+- File Creation
+
+![File-creation-preview](./assets/creation-preview.png)
 ##  Features
 
 - 📂 View files from the local system  
