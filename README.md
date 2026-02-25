@@ -53,6 +53,7 @@ A simple web-based file system project that allows users to **view, open, create
 ```
 File-System/
 │
+├── assets			  # Preview Images
 ├── testing			  # Things I took inspiration from
 ├── backend.js        # Server-side file system logic
 ├── index.html        # Main UI
